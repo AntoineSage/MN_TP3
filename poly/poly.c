@@ -84,7 +84,7 @@ int egalite_polynome(p_polyf_t p1, p_polyf_t p2)
     return 0;
 
   unsigned register int i;
-  for (i = 0; i < p1->degre; i++)
+  for (i = 0; i <= p1->degre; i++)
   {
     if (p1->coeff[i] != p2->coeff[i])
       return 0;
@@ -102,12 +102,12 @@ p_polyf_t addition_polynome(p_polyf_t p1, p_polyf_t p2)
 
   register unsigned int i;
 
-  for (i = 0; i < petit_poly->degre; i++)
+  for (i = 0; i <= petit_poly->degre; i++)
   {
     res->coeff[i] = petit_poly->coeff[i] + grand_poly->coeff[i];
   }
 
-  for (i = petit_poly->degre; i < grand_poly->degre; i++)
+  for (i = petit_poly->degre + 1; i <= grand_poly->degre; i++)
   {
     res->coeff[i] = grand_poly->coeff[i];
   }
@@ -117,17 +117,23 @@ p_polyf_t addition_polynome(p_polyf_t p1, p_polyf_t p2)
 
 p_polyf_t multiplication_polynome_scalaire(p_polyf_t p, float alpha)
 {
-  /* alpha * p1 */
+  register unsigned int i;
+  p_polyf_t res = creer_polynome(p->degre);
+  for (i = 0; i <= res->degre; i++)
+  {
+    res->coeff[i] = alpha * p->coeff[i];
+  }
 
-  return NULL;
+  return res;
 }
 
+// FACOTRISATION DE HORNER
 float eval_polynome(p_polyf_t p, float x)
 {
   float res = 0.0;
 
   unsigned register int i;
-  for (i = 0; i < p->degre; i++)
+  for (i = 0; i <= p->degre; i++)
   {
     res += p->coeff[i] * pow(x, i);
   }
@@ -136,25 +142,58 @@ float eval_polynome(p_polyf_t p, float x)
 
 p_polyf_t multiplication_polynomes(p_polyf_t p1, p_polyf_t p2)
 {
-  /* p1 * p2 */
+  register unsigned int i, j;
+  p_polyf_t p3 = creer_polynome(p1->degre + p2->degre);
+  //init de p3
+  for (i = 0; i <= p3->degre; i++)
+  {
+    p3->coeff[i] = 0;
+  }
 
-  return NULL;
+  for (i = 0; i <= p1->degre; i++)
+  {
+    for (j = 0; j <= p2->degre; j++)
+    {
+      p3->coeff[i + j] = p3->coeff[i + j] + p1->coeff[i] * p2->coeff[j];
+    }
+  }
+
+  return p3;
 }
 
 p_polyf_t puissance_polynome(p_polyf_t p, int n)
 {
-  p_polyf_t res = creer_polynome(p->degre * n);
+  if (n == 0)
+  {
+    p_polyf_t deg0 = creer_polynome(0);
+    deg0->coeff[0] = 1;
+    return deg0;
+  }
 
-  unsigned register int i;
+  p_polyf_t res = p;
 
-  return NULL;
+  register unsigned int i;
+  for (i = 0; i < n - 1; i++)
+  {
+    res = multiplication_polynomes(res, p);
+  }
+  return res;
 }
 
 p_polyf_t composition_polynome(p_polyf_t p, p_polyf_t q)
 {
-  /*
-    p O q
-  */
+  unsigned int i;
+  p_polyf_t res = creer_polynome(p->degre * q->degre);
+  //init de res
+  for (i = 0; i <= res->degre; i++)
+  {
+    res->coeff[i] = 0;
+  }
 
-  return NULL;
+  for (i = 0; i <= p->degre; i++)
+  {
+    res = addition_polynome(res, multiplication_polynome_scalaire(puissance_polynome(q, i), (p->coeff[i])));
+  }
+
+  return res;
 }
