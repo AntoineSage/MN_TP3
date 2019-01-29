@@ -21,7 +21,7 @@ p_polyf_t creer_polynome(int degre)
 
   end = _rdtsc();
 
-  printf("creation polynome: %Ld cycles\n", end - start);
+  //printf("creation polynome: %Ld cycles\n", end - start);
 
   return p;
 }
@@ -127,7 +127,7 @@ p_polyf_t multiplication_polynome_scalaire(p_polyf_t p, float alpha)
   return res;
 }
 
-// FACOTRISATION DE HORNER
+// FACTORISATION DE HORNER
 float eval_polynome(p_polyf_t p, float x)
 {
   float res = 0.0;
