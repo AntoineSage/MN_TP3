@@ -19,4 +19,4 @@ poly_creux.o: poly_creux.c poly_creux.h
 	gcc -Wall -c poly_creux.c -lm
 
 clean:
-	rm -f test_poly *.o *~
+	rm -f test_poly test_poly_creux *.o *~
