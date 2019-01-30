@@ -9,13 +9,16 @@ void test_addition_polynome() {
 	p_polycreux_t p2 = lire_polynome_float("pvidec");
 
 	assert(egalite_polynome(p1, addition_polynome(p1, p2)));
+
 	p_polycreux_t p3 = multiplication_polynome_scalaire(p1, 2);
-	printf("Multiplication : ");
-	ecrire_polynome_float(p3);
 	p_polycreux_t p4 = addition_polynome(p1, p1);
-	printf("Addition : ");
-	ecrire_polynome_float(p4);
 	assert(egalite_polynome(p3, p4));
+
+
+	p1 = lire_polynome_float("p1c");
+	p2 = lire_polynome_float("p2c");
+	p3 = lire_polynome_float("p3c");
+	assert(egalite_polynome(p3, addition_polynome(p1, p2)));
 }
 
 void test_egalite_polynome() {
@@ -25,9 +28,37 @@ void test_egalite_polynome() {
 	assert(egalite_polynome(p1, p1));
 	assert(!egalite_polynome(p1, p2));
 }
-void test_multiplication_polynome_scalaire() {}
-void test_eval_polynome() {}
 
+void test_multiplication_polynome_scalaire() {
+	p_polycreux_t p1 = lire_polynome_float("p1c");
+	p_polycreux_t p2 = multiplication_polynome_scalaire(p1, -1.0);
+	p_polycreux_t p3 = lire_polynome_float("pvidec");
+	assert(egalite_polynome(p3, addition_polynome(p1, p2)));
+}
+
+void test_eval_polynome() {
+	p_polycreux_t p1 = lire_polynome_float("pvidec");
+	assert(eval_polynome(p1, 10) == 0.0);
+
+	p1 = lire_polynome_float("p1c");
+	assert(eval_polynome(p1, 0) == 2.0);
+	assert(eval_polynome(p1, 1) == 9.0);
+	assert(eval_polynome(p1, 2) == 46.0);
+}
+
+void assert_no_deg_0(p_polycreux_t p) {
+	register unsigned int i;
+	for (i = 0; i < p->nelem; i++) {
+		assert(p->tab_paires[i].coeff != 0.0);
+	}
+}
+
+void assert_croissant(p_polycreux_t p) {
+	register unsigned int i;
+	for (i = 0; i < p->nelem - 1; i++) {
+		assert(p->tab_paires[i].degre < p->tab_paires[i + 1].degre);
+	}
+}
 
 int main(int argc, char **argv) {
 	p_polycreux_t p1, p2, p3;
@@ -44,4 +75,6 @@ int main(int argc, char **argv) {
 
 	test_egalite_polynome();
 	test_addition_polynome();
+	test_multiplication_polynome_scalaire();
+	test_eval_polynome();
 }

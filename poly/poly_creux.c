@@ -202,6 +202,22 @@ float eval_polynome(p_polycreux_t p, float x) {
 
 p_polycreux_t multiplication_polynomes(p_polycreux_t p1, p_polycreux_t p2);
 
-p_polycreux_t puissance_polynome(p_polycreux_t p, int n);
+p_polycreux_t puissance_polynome(p_polycreux_t p, int n) {
+	if (n == 0) {
+		p_polycreux_t deg0 = creer_polynome(1);
+		deg0->nelem = 1;
+		deg0->tab_paires[0].degre = 0;
+		deg0->tab_paires[0].coeff = 1;
+		return deg0;
+	}
+
+	p_polycreux_t res = p;
+
+	register unsigned int i;
+	for (i = 0; i < n - 1; i++) {
+		res = multiplication_polynomes(res, p);
+	}
+	return res;
+}
 
 p_polycreux_t composition_polynome(p_polycreux_t p, p_polycreux_t q);
