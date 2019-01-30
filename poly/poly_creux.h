@@ -1,6 +1,6 @@
 typedef struct {
-  int degre;
-  float coeff;
+	int degre;
+	float coeff;
 } paire, *p_paire;
 
 typedef struct {
@@ -12,7 +12,6 @@ p_polycreux_t creer_polynome (int nbre_monomes) ;
 
 void ajouter_paire(p_polycreux_t p, int degre, int coeff);
 
-p_polycreux_t lire_polynome_float (char *nom_fichier) ;
+p_polycreux_t lire_polynome_float(char *nom_fichier);
 
-void ecrire_polynome_float (p_polycreux_t p) ;
-
+void ecrire_polynome_float(p_polycreux_t p);
