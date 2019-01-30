@@ -8,7 +8,7 @@ typedef struct {
 	paire *tab_paires;
 } polycreux_t, *p_polycreux_t;
 
-p_polycreux_t creer_polynome () ;
+p_polycreux_t creer_polynome (int nbre_monomes) ;
 
 void ajouter_paire(p_polycreux_t p, int degre, int coeff);
 

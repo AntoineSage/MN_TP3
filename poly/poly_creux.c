@@ -6,7 +6,7 @@
 
 #include <x86intrin.h>
 
-p_polycreux_t creer_polynome()
+p_polycreux_t creer_polynome(int nbre_monomes)
 {
   p_polycreux_t p;
 
@@ -16,7 +16,7 @@ p_polycreux_t creer_polynome()
 
   p = (p_polycreux_t)malloc(sizeof(polycreux_t));
 	p->nelem=0;
-	//DEFINITION MEMOIRE DU POLYNOME A TRAVAILLER
+	p->tab_paires = (paire*)malloc((nbre_monomes + 1) * sizeof(paire));
 
   //end = _rdtsc();
 
@@ -34,7 +34,7 @@ void ajouter_paire(p_polycreux_t p, int degre, int coeff){
 	duo.degre=degre;
 	duo.coeff=coeff;
 	//Placement de la paire de sorte que le tableau de paire soit trié par degré croissant
-	while (p->tab_paires[i].degre<degre){
+	while (p->tab_paires[i].degre<degre && i<p->nelem){
 		i++;
 	}
 	//decalage des paires pour inserer la nouvelle paire
@@ -51,9 +51,10 @@ p_polycreux_t lire_polynome_float(char *nom_fichier)
 {
   FILE *f;
   p_polycreux_t p;
-  int degre;
+  int nbre_lignes;
   int i;
 	float coeff;
+	int degre;
 
   unsigned long long start, end;
 
@@ -66,13 +67,15 @@ p_polycreux_t lire_polynome_float(char *nom_fichier)
     exit(-1);
   }
 
-  fscanf(f, "%d", &degre);
-  p = creer_polynome();
-  for (i = 0; i <= degre; i++)
+  fscanf(f, "%d", &nbre_lignes);
+  p = creer_polynome(nbre_lignes);
+  for (i = 0; i < nbre_lignes; i++)
   {
-    fscanf(f, "%f",&coeff);
+    fscanf(f, "%d",&degre);
+		fscanf(f, "%f",&coeff);
+	
 		if (coeff!=0.0){
-			ajouter_paire(p, i, coeff);
+			ajouter_paire(p, degre, coeff);
 		}
   }
 
@@ -88,19 +91,27 @@ p_polycreux_t lire_polynome_float(char *nom_fichier)
 void ecrire_polynome_float(p_polycreux_t p)
 {
   int i;
-
 	if (p->tab_paires[0].degre==0){
-		  printf("%f",p->tab_paires[0].coeff);
+		 printf("%f",p->tab_paires[0].coeff);
 	}
+
 	else if (p->tab_paires[0].degre==1){
-		  printf("%f X",p->tab_paires[0].coeff);
+		 printf("%f X",p->tab_paires[0].coeff);
+		}
+		
+	else{
+    printf("%f X^%d ",p->tab_paires[0].coeff, p->tab_paires[0].degre);
 	}
-	if (p->tab_paires[1].degre==1){
-		  printf("+ %f X",p->tab_paires[1].coeff);
-	}
-  for (i = 2; i <= p->nelem; i++)
+
+  for (i = 1; i < p->nelem; i++)
   {
-    printf("+ %f X^%d ",p->tab_paires[1].coeff, p->tab_paires[1].degre);
+		if (p->tab_paires[i].degre==1){
+		  printf("+ %f X",p->tab_paires[i].coeff);
+		}
+		
+		else{
+    	printf("+ %f X^%d ",p->tab_paires[i].coeff, p->tab_paires[i].degre);
+		}
   }
 
   printf("\n");
