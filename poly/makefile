@@ -10,13 +10,13 @@ test_poly_creux.o: test_poly_creux.c poly_creux.h
 	gcc -Wall -c test_poly_creux.c -lm
 
 test_poly.o: test_poly.c poly.h
-	gcc -Wall -c test_poly.c -lm
+	gcc -Wall -g -c test_poly.c -lm
 
 poly.o: poly.c poly.h
-	gcc -Wall -c poly.c -lm
+	gcc -Wall -g -c poly.c -lm
 
 poly_creux.o: poly_creux.c poly_creux.h
-	gcc -Wall -c poly_creux.c -lm
+	gcc -Wall -g -c poly_creux.c -lm
 
 clean:
 	rm -f test_poly test_poly_creux *.o *~
