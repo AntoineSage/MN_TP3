@@ -3,3 +3,7 @@ poly/*.o
 poly/test_poly 
 .clang-format
 poly/test_poly_creux
+.vscode/*
+.template.latex
+.test.theme
+poly/*.pdf
