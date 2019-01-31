@@ -30,8 +30,8 @@ int main(int argc, char **argv)
 
   ecrire_polynome_float(p1);
   ecrire_polynome_float(p2);
-
-/*	p3=addition_polynome(p1,p2);
+	
+	p3=addition_polynome(p1,p2);
 	printf("Addition de p1 et p2:\n");  
 	ecrire_polynome_float (p3) ;
 	p3=multiplication_polynome_scalaire(p1,3);
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	p3=puissance_polynome(p1,2);
 	printf("p1 puissance 2:\n"); 
 	ecrire_polynome_float (p3) ;
-	p3=composition_polynome(p1,p2); 
+	/*p3=composition_polynome(p1,p2); 
 	printf("Composée de p1 et p2:\n"); 
 	ecrire_polynome_float (p3) ; */
 
