@@ -27,3 +27,7 @@ p_polycreux_t multiplication_polynome_scalaire(p_polycreux_t p, float alpha);
 float eval_polynome(p_polycreux_t p, float x);
 
 p_polycreux_t multiplication_polynomes(p_polycreux_t p1, p_polycreux_t p2);
+
+p_polycreux_t puissance_polynome(p_polycreux_t p, int n);
+
+p_polycreux_t composition_polynome(p_polycreux_t p, p_polycreux_t q);

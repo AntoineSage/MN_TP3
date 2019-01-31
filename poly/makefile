@@ -7,7 +7,7 @@ test_poly_creux: test_poly_creux.o poly_creux.o
 	gcc -o test_poly_creux test_poly_creux.o poly_creux.o -lm
 
 test_poly_creux.o: test_poly_creux.c poly_creux.h
-	gcc -Wall -c test_poly_creux.c -lm
+	gcc -Wall -g -c test_poly_creux.c -lm
 
 test_poly.o: test_poly.c poly.h
 	gcc -Wall -g -c test_poly.c -lm

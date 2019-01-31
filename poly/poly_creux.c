@@ -15,7 +15,7 @@ p_polycreux_t creer_polynome(int nbre_monomes) {
 
 	p = (p_polycreux_t)malloc(sizeof(polycreux_t));
 	p->nelem = 0;
-	p->tab_paires = (paire*)malloc((nbre_monomes + 1) * sizeof(paire));
+	p->tab_paires = (paire*)malloc((nbre_monomes) * sizeof(paire));
 
 	// end = _rdtsc();
 
@@ -83,27 +83,32 @@ p_polycreux_t lire_polynome_float(char* nom_fichier) {
 }
 
 void ecrire_polynome_float(p_polycreux_t p) {
-	int i;
-	if (p->tab_paires[0].degre == 0) {
-		printf("%f ", p->tab_paires[0].coeff);
-	}
 
-	else if (p->tab_paires[0].degre == 1) {
-		printf("%f X ", p->tab_paires[0].coeff);
-	}
+	if (p->nelem > 0) {
+		int i;
+		if (p->tab_paires[0].degre == 0) {
+			printf("%f ", p->tab_paires[0].coeff);
+		}
 
-	else {
-		printf("%f X^%d ", p->tab_paires[0].coeff, p->tab_paires[0].degre);
-	}
-
-	for (i = 1; i < p->nelem; i++) {
-		if (p->tab_paires[i].degre == 1) {
-			printf("+ %f X ", p->tab_paires[i].coeff);
+		else if (p->tab_paires[0].degre == 1) {
+			printf("%f X ", p->tab_paires[0].coeff);
 		}
 
 		else {
-			printf("+ %f X^%d ", p->tab_paires[i].coeff, p->tab_paires[i].degre);
+			printf("%f X^%d ", p->tab_paires[0].coeff, p->tab_paires[0].degre);
 		}
+
+		for (i = 1; i < p->nelem; i++) {
+			if (p->tab_paires[i].degre == 1) {
+				printf("+ %f X ", p->tab_paires[i].coeff);
+			}
+
+			else {
+				printf("+ %f X^%d ", p->tab_paires[i].coeff, p->tab_paires[i].degre);
+			}
+		}
+	} else {
+		printf("Polynôme nul ");
 	}
 
 	printf("\n");
@@ -153,7 +158,6 @@ p_polycreux_t addition_polynome(p_polycreux_t p1, p_polycreux_t p2) {
 				compteur_p1++;
 				compteur_p2++;
 				nelem++;
-				printf("1\n");
 			}
 		} else if (paires_p1[compteur_p1].degre > paires_p2[compteur_p2].degre) {
 			p3->tab_paires[nelem] = paires_p2[compteur_p2];
@@ -168,20 +172,16 @@ p_polycreux_t addition_polynome(p_polycreux_t p1, p_polycreux_t p2) {
 	}
 
 	while (compteur_p1 < p1->nelem) {
-		p3->tab_paires[nelem] = paires_p1[compteur_p1];
-		compteur_p1++;
-		nelem++;
+		p3->tab_paires[nelem++] = paires_p1[compteur_p1++];
 	}
 
 	while (compteur_p2 < p2->nelem) {
-		p3->tab_paires[nelem] = paires_p2[compteur_p2];
-		compteur_p2++;
-		nelem++;
+		p3->tab_paires[nelem++] = paires_p2[compteur_p2++];
 	}
-	
-	p3->nelem=nelem;
-	
-	realloc(p3->tab_paires, sizeof(paire) * nelem);
+
+	p3->tab_paires = realloc(p3->tab_paires, sizeof(paire) * nelem);
+	p3->nelem = nelem;
+
 	return p3;
 }
 
@@ -248,38 +248,33 @@ p_polycreux_t multiplication_polynomes(p_polycreux_t p1, p_polycreux_t p2){
 	
 }
 
-p_polycreux_t puissance_polynome(p_polycreux_t p, int n){
-
+p_polycreux_t puissance_polynome(p_polycreux_t p, int n) {
 	if (n == 0) {
 		p_polycreux_t deg0 = creer_polynome(1);
-		deg0->tab_paires[0].coeff = 1;
+		deg0->nelem = 1;
 		deg0->tab_paires[0].degre = 0;
+		deg0->tab_paires[0].coeff = 1;
 		return deg0;
 	}
+
 	p_polycreux_t res = p;
 
 	register unsigned int i;
 	for (i = 0; i < n - 1; i++) {
 		res = multiplication_polynomes(res, p);
 	}
+	return res;
+}
 
-	for (i=0;i<res->nelem;i++){
-		printf("(coeff %f deg %d)",res->tab_paires[i].coeff,res->tab_paires[i].degre);	
+p_polycreux_t composition_polynome(p_polycreux_t p, p_polycreux_t q){
+
+	unsigned int i;
+	p_polycreux_t res = creer_polynome(p->nelem* q->nelem);
+
+	for (i = 0; i < p->nelem; i++) {
+		res = addition_polynome(res, multiplication_polynome_scalaire(puissance_polynome(q, i), (p->tab_paires[i].coeff)));
 	}
 
 	return res;
 }
-
-p_polycreux_t composition_polynome(p_polycreux_t p, p_polycreux_t q);
-
-	/*unsigned int i;
-	p_polyf_t res = creer_polynome(p->degre * q->degre);
-	// init de res
-
-	for (i = 0; i <= p->degre; i++) {
-		res = addition_polynome(res, multiplication_polynome_scalaire(puissance_polynome(q, i), (p->coeff[i])));
-	}
-
-	return res;*/
-
 
