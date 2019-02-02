@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef _POLY_CREUX_
 #include "poly.h"
+#else
+#include "poly_creux.h"
+#endif
 
 #include <x86intrin.h>
 

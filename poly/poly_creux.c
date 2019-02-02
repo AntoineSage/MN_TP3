@@ -83,7 +83,6 @@ p_polycreux_t lire_polynome_float(char* nom_fichier) {
 }
 
 void ecrire_polynome_float(p_polycreux_t p) {
-
 	if (p->nelem > 0) {
 		int i;
 		if (p->tab_paires[0].degre == 0) {
@@ -123,7 +122,7 @@ int egalite_polynome(p_polycreux_t p1, p_polycreux_t p2) {
 	if (p1->nelem != p2->nelem) return 0;
 	for (i = 0; i < p1->nelem; i++) {
 		if (p1->tab_paires[i].coeff != p2->tab_paires[i].coeff ||
-		    p1->tab_paires[i].degre != p2->tab_paires[i].degre)
+			p1->tab_paires[i].degre != p2->tab_paires[i].degre)
 			return 0;
 	}
 	return 1;
@@ -209,43 +208,43 @@ float eval_polynome(p_polycreux_t p, float x) {
 	return res;
 }
 
-p_polycreux_t multiplication_polynomes(p_polycreux_t p1, p_polycreux_t p2){
-	
+p_polycreux_t multiplication_polynomes(p_polycreux_t p1, p_polycreux_t p2) {
 	register unsigned int i, j;
-	p_polycreux_t p3 = creer_polynome(p1->nelem*p2->nelem);
+	p_polycreux_t p3 = creer_polynome(p1->nelem * p2->nelem);
 
 	int k, l;
 
 	for (i = 0; i < p1->nelem; i++) {
 		for (j = 0; j < p2->nelem; j++) {
-				
-			k=0;
+			k = 0;
 
-			//On cherche la position adequate pour inserer une paire de degre p1->tab_paires[i].degre + p2->tab_paires[j].degre
-			while (p1->tab_paires[i].degre + p2->tab_paires[j].degre > p3->tab_paires[k].degre && k < p3->nelem) {
+			// On cherche la position adequate pour inserer une paire de degre
+			// p1->tab_paires[i].degre + p2->tab_paires[j].degre
+			while (p1->tab_paires[i].degre + p2->tab_paires[j].degre > p3->tab_paires[k].degre &&
+				   k < p3->nelem) {
 				k++;
 			}
 
-			//Un coeff a deja ce degre, donc il faut additionner les coeffs		
-			if (p1->tab_paires[i].degre + p2->tab_paires[j].degre == p3->tab_paires[k].degre){
-				p3->tab_paires[k].coeff=p3->tab_paires[k].coeff + p1->tab_paires[i].coeff * p2->tab_paires[j].coeff;
+			// Un coeff a deja ce degre, donc il faut additionner les coeffs
+			if (p1->tab_paires[i].degre + p2->tab_paires[j].degre == p3->tab_paires[k].degre) {
+				p3->tab_paires[k].coeff =
+					p3->tab_paires[k].coeff + p1->tab_paires[i].coeff * p2->tab_paires[j].coeff;
 			}
-			//Ce degre n'a pas de coeff, il faut creer une nouvelle paire
+			// Ce degre n'a pas de coeff, il faut creer une nouvelle paire
 			else {
 				// decalage des paires pour inserer la nouvelle paire
 				for (l = p3->nelem - 1; l >= k; l--) {
 					p3->tab_paires[l + 1] = p3->tab_paires[l];
 				}
 				// Insertion de la nouvelle paire
-				p3->tab_paires[k].coeff=p1->tab_paires[i].coeff * p2->tab_paires[j].coeff;
-				p3->tab_paires[k].degre=p1->tab_paires[i].degre + p2->tab_paires[j].degre;
+				p3->tab_paires[k].coeff = p1->tab_paires[i].coeff * p2->tab_paires[j].coeff;
+				p3->tab_paires[k].degre = p1->tab_paires[i].degre + p2->tab_paires[j].degre;
 				p3->nelem++;
 			}
 		}
 	}
 	realloc(p3->tab_paires, sizeof(paire) * p3->nelem);
 	return p3;
-	
 }
 
 p_polycreux_t puissance_polynome(p_polycreux_t p, int n) {
@@ -266,15 +265,14 @@ p_polycreux_t puissance_polynome(p_polycreux_t p, int n) {
 	return res;
 }
 
-p_polycreux_t composition_polynome(p_polycreux_t p, p_polycreux_t q){
-
+p_polycreux_t composition_polynome(p_polycreux_t p, p_polycreux_t q) {
 	unsigned int i;
-	p_polycreux_t res = creer_polynome(p->nelem* q->nelem);
+	p_polycreux_t res = creer_polynome(p->nelem * q->nelem);
 
 	for (i = 0; i < p->nelem; i++) {
-		res = addition_polynome(res, multiplication_polynome_scalaire(puissance_polynome(q, i), (p->tab_paires[i].coeff)));
+		res = addition_polynome(res, multiplication_polynome_scalaire(puissance_polynome(q, i),
+																	  (p->tab_paires[i].coeff)));
 	}
 
 	return res;
 }
-
