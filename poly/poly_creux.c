@@ -155,10 +155,10 @@ p_polycreux_t addition_polynome(p_polycreux_t p1, p_polycreux_t p2) {
 			float coeff = paires_p1[compteur_p1].coeff + paires_p2[compteur_p2].coeff;
 			if (coeff != 0) {
 				p3->tab_paires[nelem] = creer_paire(degre, coeff);  // pas sûr de moi
-				compteur_p1++;
-				compteur_p2++;
 				nelem++;
 			}
+			compteur_p1++;
+			compteur_p2++;
 		} else if (paires_p1[compteur_p1].degre > paires_p2[compteur_p2].degre) {
 			p3->tab_paires[nelem] = paires_p2[compteur_p2];
 			compteur_p2++;
