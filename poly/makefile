@@ -1,22 +1,38 @@
-all: test_poly test_poly_creux
+.PHONY: clean
 
-test_poly: test_poly.o poly.o
-	gcc -o test_poly test_poly.o poly.o -lm
+CC=gcc
+CFLAGS= -Wall -g -lm
 
-test_poly_creux: test_poly_creux.o poly_creux.o
-	gcc -o test_poly_creux test_poly_creux.o poly_creux.o -lm
+ExecPoly= test_poly 
+ExecCreux= test_poly_creux
 
-test_poly_creux.o: test_poly_creux.c poly_creux.h
-	gcc -Wall -g -c test_poly_creux.c -lm
+SourcePoly= test_poly.c poly.c
+ObjPoly= $(SourcePoly:%.c=%.o)
 
-test_poly.o: test_poly.c poly.h
-	gcc -Wall -g -c test_poly.c -lm
+SourcePolyCreux= test_poly_creux.c poly_creux.c
+ObjPolyCreux= $(SourcePolyCreux:%.c=%.o)
 
-poly.o: poly.c poly.h
-	gcc -Wall -g -c poly.c -lm
+all: $(ExecPoly) $(ExecCreux)
 
-poly_creux.o: poly_creux.c poly_creux.h
-	gcc -Wall -g -c poly_creux.c -lm
+test:
+	echo $(ObjPoly)
+
+$(ExecPoly): $(ObjPoly)
+	$(CC) -o $@ $^
+
+$(ExecCreux): $(ObjPolyCreux)
+	$(CC) -o $@ $^
+
+%.o : %.c
+	$(CC) $(CFLAGS) -c $< 
+
+test_poly_creux.o:: poly_creux.h
+
+poly_creux.o:: poly_creux.h
+
+test_poly.o:: poly.h
+
+poly.o:: poly.h
 
 clean:
-	rm -f test_poly test_poly_creux *.o *~
+	rm -f $(ExecPoly) $(ExecCreux) *.o *~ *.gch
