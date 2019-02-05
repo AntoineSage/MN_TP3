@@ -110,9 +110,59 @@ void perf_multiplication_scalaire_polynome(int taille) {
 	printf("OK\n");
 }
 
+// Nb d'opérations
+void perf_eval_polynome(int taille) {
+	printf("\n Perf eval_polynome :\n");
+	printf("1. Sans zero\n");
+
+	p_polyf_t p1 = creer_polynome(taille - 1);
+	float out;
+	float res = taille * 2;
+	init_polynome(p1, VAL);
+
+	p_polycreux_t p1_creux = creer_polynome_creux(taille);
+	init_polynome_creux(p1_creux, VAL, taille);
+
+	unsigned long long start, end;
+
+	start = _rdtsc();
+	out = eval_polynome(p1, 1.0);
+	end = _rdtsc();
+	calcul_flop("\r P", taille * 2, end - start);
+	assert(res == out);
+
+	start = _rdtsc();
+	out = eval_polynome_creux(p1_creux, 1.0);  // Pas sûr pour le nb d'opérations
+	end = _rdtsc();
+	calcul_flop("\r C", taille * 2, end - start);
+	assert(res == out);
+
+	printf("OK\n");
+
+
+	printf("2. Avec zero\n");
+
+	res = ((taille + 1) / 2) * 2;
+	init_polynome_half_zero(p1, VAL);
+	init_polynome_creux_half_zero(p1_creux, VAL, taille);
+
+	start = _rdtsc();
+	out = eval_polynome(p1, 1.0);
+	end = _rdtsc();
+	calcul_flop("\r P", (p1->degre + 1) * 2, end - start);
+	assert(res == out);
+
+	start = _rdtsc();
+	out = eval_polynome_creux(p1_creux, 1.0);  // Pas sûr pour le nb d'opérations
+	end = _rdtsc();
+	calcul_flop("\r C", (p1_creux->nelem) * 2, end - start);
+	assert(res == out);
+}
+
 #define NB_TAILLES 5
 int main(int argc, char **argv) {
-	perf_multiplication_scalaire_polynome(10000);
+	perf_eval_polynome(50000);
+	// perf_multiplication_scalaire_polynome(10000);
 
 	// int tailles[NB_TAILLES] = {16, 128, 1024, 4096, 4096 * 4};
 	// int i;

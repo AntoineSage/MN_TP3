@@ -204,7 +204,6 @@ p_polycreux_t multiplication_polynome_scalaire_creux(p_polycreux_t p, float alph
 	}
 }
 
-// A tester !!
 float eval_polynome_creux(p_polycreux_t p, float x) {
 	float res = 0.0;
 	register unsigned int i;
