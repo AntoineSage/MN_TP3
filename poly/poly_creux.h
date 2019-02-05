@@ -10,7 +10,7 @@ typedef struct {
 
 p_polycreux_t creer_polynome_creux(int nbre_monomes);
 
-void ajouter_paire_creux(p_polycreux_t p, int degre, int coeff);
+void ajouter_paire_creux(p_polycreux_t p, int degre, float coeff);
 
 p_polycreux_t lire_polynome_float_creux(char *nom_fichier);
 
@@ -34,6 +34,6 @@ p_polycreux_t composition_polynome_creux(p_polycreux_t p, p_polycreux_t q);
 
 void detruire_polynome_creux(p_polycreux_t p);
 
-void init_polynome_creux(p_polycreux_t p, float x);
+void init_polynome_creux(p_polycreux_t p, float x, int taille);
 
-void init_polynome_creux_half_zero(p_polycreux_t p, float x);
+void init_polynome_creux_half_zero(p_polycreux_t p, float x, int taille);

@@ -8,11 +8,8 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/poly/test_poly_creux",
-            "args": [
-                "poly/p1c",
-                "poly/p2c"
-            ],
+            "program": "${workspaceFolder}/poly/perf_poly",
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

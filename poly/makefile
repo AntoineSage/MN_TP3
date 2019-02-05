@@ -8,7 +8,7 @@ ExecPoly= test_poly
 ExecCreux= test_poly_creux
 ExecPerf= perf_poly
 
-SourcePerf= perf_poly.c poly.c
+SourcePerf= perf_poly.c poly.c poly_creux.c
 ObjPerf= $(SourcePerf:%.c=%.o)
 
 SourcePoly= test_poly.c poly.c
@@ -31,7 +31,7 @@ $(ExecCreux): $(ObjPolyCreux)
 %.o : %.c
 	$(CC) $(CFLAGS) $(LIBS) -c $< 
 
-perf_poly.o:: poly.h
+perf_poly.o:: poly.h poly_creux.h
 
 test_poly_creux.o:: poly_creux.h
 

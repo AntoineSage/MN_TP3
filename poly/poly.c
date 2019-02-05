@@ -190,10 +190,9 @@ void init_polynome(p_polyf_t p, float x) {
 
 void init_polynome_half_zero(p_polyf_t p, float x) {
 	register unsigned int i;
-
-	for (i = 0; i <= p->degre / 2; ++i)
+	for (i = 0; i <= (p->degre + 1) / 2; ++i)
 		p->coeff[i] = 0;
-	for (i = p->degre / 2 + 1; i <= p->degre; ++i)
+	for (i = (p->degre + 1) / 2 + 1; i <= p->degre; ++i)
 		p->coeff[i] = x;
 
 	return;
