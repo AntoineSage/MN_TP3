@@ -7,13 +7,11 @@
 void test_addition_polynome() {
 	p_polycreux_t p1 = lire_polynome_float("p1c");
 	p_polycreux_t p2 = lire_polynome_float("pvidec");
-
 	assert(egalite_polynome(p1, addition_polynome(p1, p2)));
 
 	p_polycreux_t p3 = multiplication_polynome_scalaire(p1, 2);
 	p_polycreux_t p4 = addition_polynome(p1, p1);
 	assert(egalite_polynome(p3, p4));
-
 
 	p1 = lire_polynome_float("p1c");
 	p2 = lire_polynome_float("p2c");
@@ -32,7 +30,9 @@ void test_egalite_polynome() {
 void test_multiplication_polynome_scalaire() {
 	p_polycreux_t p1 = lire_polynome_float("p1c");
 	p_polycreux_t p2 = multiplication_polynome_scalaire(p1, -1.0);
+	
 	p_polycreux_t p3 = lire_polynome_float("pvidec");
+
 	assert(egalite_polynome(p3, addition_polynome(p1, p2)));
 }
 
@@ -88,8 +88,12 @@ int main(int argc, char **argv) {
 	ecrire_polynome_float(p2);
 
 	test_egalite_polynome();
+	printf("egalite OK\n");
 	test_addition_polynome();
+	printf("addition OK\n");
 	test_multiplication_polynome_scalaire();
+	printf("multiplication OK\n");
 	test_eval_polynome();
+	printf("eval OK\n");
 }
 
