@@ -166,8 +166,35 @@ p_polyf_t composition_polynome(p_polyf_t p, p_polyf_t q) {
 
 	for (i = 0; i <= p->degre; i++) {
 		res = addition_polynome(
-		    res, multiplication_polynome_scalaire(puissance_polynome(q, i), (p->coeff[i])));
+			res, multiplication_polynome_scalaire(puissance_polynome(q, i), (p->coeff[i])));
 	}
 
 	return res;
+}
+
+void detruire_polynome(p_polyf_t p) {
+	free(p->coeff);
+	free(p);
+
+	return;
+}
+
+void init_polynome(p_polyf_t p, float x) {
+	register unsigned int i;
+
+	for (i = 0; i <= p->degre; ++i)
+		p->coeff[i] = x;
+
+	return;
+}
+
+void init_polynome_half_zero(p_polyf_t p, float x) {
+	register unsigned int i;
+
+	for (i = 0; i <= p->degre / 2; ++i)
+		p->coeff[i] = 0;
+	for (i = p->degre / 2 + 1; i <= p->degre; ++i)
+		p->coeff[i] = x;
+
+	return;
 }
