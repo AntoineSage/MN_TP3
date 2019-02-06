@@ -11,17 +11,9 @@ int compteur_operation_creux;
 p_polycreux_t creer_polynome_creux(int nbre_monomes) {
 	p_polycreux_t p;
 
-	// unsigned long long start, end;
-
-	// start = _rdtsc();
-
 	p = (p_polycreux_t)malloc(sizeof(polycreux_t));
 	p->nelem = 0;
 	p->tab_paires = (paire*)malloc((nbre_monomes) * sizeof(paire));
-
-	// end = _rdtsc();
-
-	// printf("creation polynome: %Ld cycles\n", end - start);
 
 	return p;
 }
@@ -156,8 +148,7 @@ p_polycreux_t addition_polynome_creux(p_polycreux_t p1, p_polycreux_t p2) {
 			float coeff = paires_p1[compteur_p1].coeff + paires_p2[compteur_p2].coeff;
 			compteur_operation_creux++;
 			if (coeff != 0) {
-				p3->tab_paires[nelem] = creer_paire_creux(degre, coeff);
-				nelem++;
+				p3->tab_paires[nelem++] = creer_paire_creux(degre, coeff); 
 			}
 			compteur_p1++;
 			compteur_p2++;

@@ -13,6 +13,7 @@
 #define VAL 2
 
 extern int compteur_operation_creux;
+extern int compteur_operation_non_creux;
 
 static const float duree_cycle = (float)1 / (float)2.3;  // duree du cycle en nano seconde 10^-9
 
@@ -211,7 +212,7 @@ void perf_multiplication_polynome(int taille){
 	start = _rdtsc () ;
 	p_polyf_t pres = multiplication_polynomes(p1,p2);
 	end = _rdtsc () ;
-	calcul_flop("  P",compteur_operation_creux,end-start);
+	calcul_flop("  P",compteur_operation_non_creux,end-start);
 
 
 	compteur_operation_creux=0;
@@ -228,7 +229,7 @@ void perf_multiplication_polynome(int taille){
 	start = _rdtsc () ;
 	pres = multiplication_polynomes(p3,p4);
 	end = _rdtsc () ;
-	calcul_flop("  P",compteur_operation_creux,end-start);
+	calcul_flop("  P",compteur_operation_non_creux,end-start);
 
 	compteur_operation_creux=0;
 	start = _rdtsc () ;
@@ -272,7 +273,7 @@ void perf_composition_polynome(int taille){
 	start = _rdtsc () ;
 	p_polyf_t pres = composition_polynome(p1,p2);
 	end = _rdtsc () ;
-	calcul_flop("  P",compteur_operation_creux,end-start);
+	calcul_flop("  P",compteur_operation_non_creux,end-start);
 
 
 	compteur_operation_creux=0;
@@ -289,7 +290,7 @@ void perf_composition_polynome(int taille){
 	start = _rdtsc () ;
 	pres = composition_polynome(p3,p4);
 	end = _rdtsc () ;
-	calcul_flop("  P",compteur_operation_creux,end-start);
+	calcul_flop("  P",compteur_operation_non_creux,end-start);
 
 	compteur_operation_creux=0;
 	start = _rdtsc () ;
@@ -301,6 +302,7 @@ void perf_composition_polynome(int taille){
 }
 
 // Nb d'opérations
+
 void perf_eval_polynome(int taille) {
 	printf("\n Perf eval_polynome :\n");
 	printf("1. Sans zero\n");
@@ -351,20 +353,20 @@ void perf_eval_polynome(int taille) {
 
 #define NB_TAILLES 5
 int main(int argc, char **argv) {
-	perf_eval_polynome(50000);
-	perf_addition_polynome(50000);
-	perf_multiplication_polynome(50000);
-	perf_composition_polynome(50000);
-	// perf_multiplication_scalaire_polynome(10000);
 
-	// int tailles[NB_TAILLES] = {16, 128, 1024, 4096, 4096 * 4};
-	// int i;
+	perf_eval_polynome(23);
+	perf_addition_polynome(5000);
+	perf_multiplication_polynome(40);
+	perf_composition_polynome(40);
 
-	// for (i = 0; i < NB_TAILLES; i++) {
-	// 	printf("Taille %d :\n", tailles[i]);
-	// 	perf_egalite_polynome(tailles[i]);
-	// 	perf_multiplication_scalaire_polynome(tailles[i]);
-	// 	printf("\n \n");
-	// ecrire_polynome_float_creux(p1_creux);
-	// }
+	/*int tailles[NB_TAILLES] = {16, 128, 1024, 4096, 4096 * 4};
+	int i;
+
+	for (i = 0; i < NB_TAILLES; i++) {
+		printf("Taille %d :\n", tailles[i]);
+		perf_egalite_polynome(tailles[i]);
+		perf_multiplication_scalaire_polynome(tailles[i]);
+		printf("\n \n");
+		// ecrire_polynome_float_creux(p1_creux);
+	}*/
 }
