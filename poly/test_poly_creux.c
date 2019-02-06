@@ -4,46 +4,54 @@
 #include <stdlib.h>
 #include "poly_creux.h"
 
-void test_addition_polynome() {
-	p_polycreux_t p1 = lire_polynome_float("p1c");
-	p_polycreux_t p2 = lire_polynome_float("pvidec");
-	assert(egalite_polynome(p1, addition_polynome(p1, p2)));
+void test_addition_polynome_creux() {
+	p_polycreux_t p1 = lire_polynome_float_creux("p1c");
+	p_polycreux_t p2 = lire_polynome_float_creux("pvidec");
+	assert(egalite_polynome_creux(p1, addition_polynome_creux(p1, p2)));
 
-	p_polycreux_t p3 = multiplication_polynome_scalaire(p1, 2);
-	p_polycreux_t p4 = addition_polynome(p1, p1);
-	assert(egalite_polynome(p3, p4));
+	p_polycreux_t p3 = multiplication_polynome_scalaire_creux(p1, 2);
+	p_polycreux_t p4 = addition_polynome_creux(p1, p1);
+	assert(egalite_polynome_creux(p3, p4));
 
-	p1 = lire_polynome_float("p1c");
-	p2 = lire_polynome_float("p2c");
-	p3 = lire_polynome_float("p3c");
-	assert(egalite_polynome(p3, addition_polynome(p1, p2)));
+	p1 = lire_polynome_float_creux("p1c");
+	p2 = lire_polynome_float_creux("p2c");
+	p3 = lire_polynome_float_creux("p3c");
+	assert(egalite_polynome_creux(p3, addition_polynome_creux(p1, p2)));
 }
 
-void test_egalite_polynome() {
-	p_polycreux_t p1 = lire_polynome_float("p1c");
-	p_polycreux_t p2 = lire_polynome_float("p2c");
+void test_egalite_polynome_creux() {
+	p_polycreux_t p1 = lire_polynome_float_creux("p1c");
+	p_polycreux_t p2 = lire_polynome_float_creux("p2c");
 
-	assert(egalite_polynome(p1, p1));
-	assert(!egalite_polynome(p1, p2));
+	assert(egalite_polynome_creux(p1, p1));
+	assert(!egalite_polynome_creux(p1, p2));
 }
 
-void test_multiplication_polynome_scalaire() {
-	p_polycreux_t p1 = lire_polynome_float("p1c");
-	p_polycreux_t p2 = multiplication_polynome_scalaire(p1, -1.0);
+void test_multiplication_polynome_scalaire_creux() {
+	p_polycreux_t p1 = lire_polynome_float_creux("p1c");
+	p_polycreux_t p2 = multiplication_polynome_scalaire_creux(p1, -1.0);
 	
-	p_polycreux_t p3 = lire_polynome_float("pvidec");
+	p_polycreux_t p3 = lire_polynome_float_creux("pvidec");
 
-	assert(egalite_polynome(p3, addition_polynome(p1, p2)));
+	assert(egalite_polynome_creux(p3, addition_polynome_creux(p1, p2)));
 }
 
-void test_eval_polynome() {
-	p_polycreux_t p1 = lire_polynome_float("pvidec");
-	assert(eval_polynome(p1, 10) == 0.0);
+void test_multiplication_polynomes_creux() {
+	p_polycreux_t p1 = lire_polynome_float_creux("p1c");
+	p_polycreux_t p2 = lire_polynome_float_creux("pvidec");
+	p_polycreux_t p3 = multiplication_polynomes_creux(p1, p2);
+	
+	assert(egalite_polynome_creux(p3, p2));
+}
 
-	p1 = lire_polynome_float("p1c");
-	assert(eval_polynome(p1, 0) == 2.0);
-	assert(eval_polynome(p1, 1) == 9.0);
-	assert(eval_polynome(p1, 2) == 46.0);
+void test_eval_polynome_creux() {
+	p_polycreux_t p1 = lire_polynome_float_creux("pvidec");
+	assert(eval_polynome_creux(p1, 10) == 0.0);
+
+	p1 = lire_polynome_float_creux("p1c");
+	assert(eval_polynome_creux(p1, 0) == 2.0);
+	assert(eval_polynome_creux(p1, 1) == 9.0);
+	assert(eval_polynome_creux(p1, 2) == 46.0);
 }
 
 void assert_no_deg_0(p_polycreux_t p) {
@@ -81,19 +89,21 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "deux paramètres (polynomes,fichiers) sont à passer \n");
 		exit(-1);
 	}
-	p1 = lire_polynome_float(argv[1]);
-	p2 = lire_polynome_float(argv[2]);
+	p1 = lire_polynome_float_creux(argv[1]);
+	p2 = lire_polynome_float_creux(argv[2]);
 
-	ecrire_polynome_float(p1);
-	ecrire_polynome_float(p2);
+	ecrire_polynome_float_creux(p1);
+	ecrire_polynome_float_creux(p2);
 
-	test_egalite_polynome();
+	test_egalite_polynome_creux();
 	printf("egalite OK\n");
-	test_addition_polynome();
+	test_addition_polynome_creux();
 	printf("addition OK\n");
-	test_multiplication_polynome_scalaire();
-	printf("multiplication OK\n");
-	test_eval_polynome();
+	test_multiplication_polynome_scalaire_creux();
+	printf("multiplication scalaire OK\n");
+	test_multiplication_polynomes_creux();
+	printf("multiplication polynomes OK\n");
+	test_eval_polynome_creux();
 	printf("eval OK\n");
 }
 

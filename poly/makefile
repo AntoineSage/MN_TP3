@@ -1,7 +1,8 @@
 .PHONY: clean
 
 CC=gcc
-CFLAGS= -Wall -g -lm
+CFLAGS= -Wall -g
+LIBS= -lm
 
 ExecPoly= test_poly 
 ExecCreux= test_poly_creux
@@ -21,10 +22,10 @@ $(ExecPoly): $(ObjPoly)
 	$(CC) -o $@ $^
 
 $(ExecCreux): $(ObjPolyCreux)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ $(LIBS)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< 
+	$(CC) $(CFLAGS) $(LIBS) -c $< 
 
 test_poly_creux.o:: poly_creux.h
 

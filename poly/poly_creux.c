@@ -6,7 +6,7 @@
 
 #include <x86intrin.h>
 
-p_polycreux_t creer_polynome(int nbre_monomes) {
+p_polycreux_t creer_polynome_creux(int nbre_monomes) {
 	p_polycreux_t p;
 
 	// unsigned long long start, end;
@@ -25,7 +25,7 @@ p_polycreux_t creer_polynome(int nbre_monomes) {
 }
 
 
-void ajouter_paire(p_polycreux_t p, int degre, int coeff) {
+void ajouter_paire_creux(p_polycreux_t p, int degre, int coeff) {
 	paire duo;
 	int i = 0;
 	int j;
@@ -44,7 +44,7 @@ void ajouter_paire(p_polycreux_t p, int degre, int coeff) {
 	p->nelem++;
 }
 
-p_polycreux_t lire_polynome_float(char* nom_fichier) {
+p_polycreux_t lire_polynome_float_creux(char* nom_fichier) {
 	FILE* f;
 	p_polycreux_t p;
 	int nbre_lignes;
@@ -63,13 +63,13 @@ p_polycreux_t lire_polynome_float(char* nom_fichier) {
 	}
 
 	fscanf(f, "%d", &nbre_lignes);
-	p = creer_polynome(nbre_lignes);
+	p = creer_polynome_creux(nbre_lignes);
 	for (i = 0; i < nbre_lignes; i++) {
 		fscanf(f, "%d", &degre);
 		fscanf(f, "%f", &coeff);
 
 		if (coeff != 0.0) {
-			ajouter_paire(p, degre, coeff);
+			ajouter_paire_creux(p, degre, coeff);
 		}
 	}
 
@@ -82,7 +82,7 @@ p_polycreux_t lire_polynome_float(char* nom_fichier) {
 	return p;
 }
 
-void ecrire_polynome_float(p_polycreux_t p) {
+void ecrire_polynome_float_creux(p_polycreux_t p) {
 
 	if (p->nelem > 0) {
 		int i;
@@ -118,7 +118,7 @@ void ecrire_polynome_float(p_polycreux_t p) {
 
 // Assume que les polynôme creux sont triées par ordre croissant de degré et ne contiennent pas de
 // de coeff 0.
-int egalite_polynome(p_polycreux_t p1, p_polycreux_t p2) {
+int egalite_polynome_creux(p_polycreux_t p1, p_polycreux_t p2) {
 	register unsigned int i;
 	if (p1->nelem != p2->nelem) return 0;
 	for (i = 0; i < p1->nelem; i++) {
@@ -129,7 +129,7 @@ int egalite_polynome(p_polycreux_t p1, p_polycreux_t p2) {
 	return 1;
 }
 
-paire creer_paire(int degree, float coeff) {
+paire creer_paire_creux(int degree, float coeff) {
 	paire tmp;
 	tmp.degre = degree;
 	tmp.coeff = coeff;
@@ -137,8 +137,8 @@ paire creer_paire(int degree, float coeff) {
 }
 
 // A tester !!
-p_polycreux_t addition_polynome(p_polycreux_t p1, p_polycreux_t p2) {
-	p_polycreux_t p3 = creer_polynome(p1->nelem + p2->nelem);
+p_polycreux_t addition_polynome_creux(p_polycreux_t p1, p_polycreux_t p2) {
+	p_polycreux_t p3 = creer_polynome_creux(p1->nelem + p2->nelem);
 
 	int nelem = 0;
 
@@ -154,7 +154,7 @@ p_polycreux_t addition_polynome(p_polycreux_t p1, p_polycreux_t p2) {
 			int degre = paires_p1[compteur_p1].degre;
 			float coeff = paires_p1[compteur_p1].coeff + paires_p2[compteur_p2].coeff;
 			if (coeff != 0) {
-				p3->tab_paires[nelem] = creer_paire(degre, coeff);  // pas sûr de moi
+				p3->tab_paires[nelem] = creer_paire_creux(degre, coeff);  // pas sûr de moi
 				nelem++;
 			}
 			compteur_p1++;
@@ -186,8 +186,8 @@ p_polycreux_t addition_polynome(p_polycreux_t p1, p_polycreux_t p2) {
 }
 
 // A tester !!
-p_polycreux_t multiplication_polynome_scalaire(p_polycreux_t p, float alpha) {
-	p_polycreux_t pres = creer_polynome(p->nelem);
+p_polycreux_t multiplication_polynome_scalaire_creux(p_polycreux_t p, float alpha) {
+	p_polycreux_t pres = creer_polynome_creux(p->nelem);
 	pres->nelem = p->nelem;
 
 	register unsigned int i;
@@ -200,7 +200,7 @@ p_polycreux_t multiplication_polynome_scalaire(p_polycreux_t p, float alpha) {
 }
 
 // A tester !!
-float eval_polynome(p_polycreux_t p, float x) {
+float eval_polynome_creux(p_polycreux_t p, float x) {
 	float res = 0.0;
 	register unsigned int i;
 	for (i = 0; i < p->nelem; i++) {
@@ -209,10 +209,10 @@ float eval_polynome(p_polycreux_t p, float x) {
 	return res;
 }
 
-p_polycreux_t multiplication_polynomes(p_polycreux_t p1, p_polycreux_t p2){
+p_polycreux_t multiplication_polynomes_creux(p_polycreux_t p1, p_polycreux_t p2){
 	
 	register unsigned int i, j;
-	p_polycreux_t p3 = creer_polynome(p1->nelem*p2->nelem);
+	p_polycreux_t p3 = creer_polynome_creux(p1->nelem*p2->nelem);
 
 	int k, l;
 
@@ -248,9 +248,9 @@ p_polycreux_t multiplication_polynomes(p_polycreux_t p1, p_polycreux_t p2){
 	
 }
 
-p_polycreux_t puissance_polynome(p_polycreux_t p, int n) {
+p_polycreux_t puissance_polynome_creux(p_polycreux_t p, int n) {
 	if (n == 0) {
-		p_polycreux_t deg0 = creer_polynome(1);
+		p_polycreux_t deg0 = creer_polynome_creux(1);
 		deg0->nelem = 1;
 		deg0->tab_paires[0].degre = 0;
 		deg0->tab_paires[0].coeff = 1;
@@ -261,7 +261,7 @@ p_polycreux_t puissance_polynome(p_polycreux_t p, int n) {
 
 	register unsigned int i;
 	for (i = 0; i < n - 1; i++) {
-		res = multiplication_polynomes(res, p);
+		res = multiplication_polynomes_creux(res, p);
 	}
 	return res;
 }
@@ -269,10 +269,10 @@ p_polycreux_t puissance_polynome(p_polycreux_t p, int n) {
 p_polycreux_t composition_polynome(p_polycreux_t p, p_polycreux_t q){
 
 	unsigned int i;
-	p_polycreux_t res = creer_polynome(p->nelem* q->nelem);
+	p_polycreux_t res = creer_polynome_creux(p->nelem* q->nelem);
 
 	for (i = 0; i < p->nelem; i++) {
-		res = addition_polynome(res, multiplication_polynome_scalaire(puissance_polynome(q, i), (p->tab_paires[i].coeff)));
+		res = addition_polynome_creux(res, multiplication_polynome_scalaire_creux(puissance_polynome_creux(q, i), (p->tab_paires[i].coeff)));
 	}
 
 	return res;
