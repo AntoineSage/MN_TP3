@@ -30,10 +30,14 @@ void test_egalite_polynome_creux() {
 void test_multiplication_polynome_scalaire_creux() {
 	p_polycreux_t p1 = lire_polynome_float_creux("p1c");
 	p_polycreux_t p2 = multiplication_polynome_scalaire_creux(p1, -1.0);
+}
 
-	p_polycreux_t p3 = lire_polynome_float_creux("pvidec");
-
-	assert(egalite_polynome_creux(p3, addition_polynome_creux(p1, p2)));
+void test_multiplication_polynomes_creux() {
+	p_polycreux_t p1 = lire_polynome_float_creux("p1c");
+	p_polycreux_t p2 = lire_polynome_float_creux("pvidec");
+	p_polycreux_t p3 = multiplication_polynomes_creux(p1, p2);
+	
+	assert(egalite_polynome_creux(p3, p2));
 }
 
 void test_eval_polynome_creux() {
@@ -92,7 +96,9 @@ int main(int argc, char **argv) {
 	test_addition_polynome_creux();
 	printf("addition OK\n");
 	test_multiplication_polynome_scalaire_creux();
-	printf("multiplication OK\n");
+	printf("multiplication scalaire OK\n");
+	test_multiplication_polynomes_creux();
+	printf("multiplication polynomes OK\n");
 	test_eval_polynome_creux();
 	printf("eval OK\n");
 }
