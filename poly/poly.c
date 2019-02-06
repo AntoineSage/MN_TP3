@@ -6,21 +6,14 @@
 
 #include <x86intrin.h>
 
+int compteur_operation_non_creux = 0;
+
 p_polyf_t creer_polynome(int degre) {
 	p_polyf_t p;
 
-	// unsigned long long start, end;
-
-	// start = _rdtsc();
-
 	p = (p_polyf_t)malloc(sizeof(polyf_t));
 	p->degre = degre;
-
 	p->coeff = (float *)malloc((degre + 1) * sizeof(float));
-
-	// end = _rdtsc();
-
-	// printf("creation polynome: %Ld cycles\n", end - start);
 
 	return p;
 }
@@ -92,6 +85,7 @@ p_polyf_t addition_polynome(p_polyf_t p1, p_polyf_t p2) {
 	register unsigned int i;
 
 	for (i = 0; i <= petit_poly->degre; i++) {
+		compteur_operation_non_creux++;
 		res->coeff[i] = petit_poly->coeff[i] + grand_poly->coeff[i];
 	}
 
@@ -112,7 +106,6 @@ p_polyf_t multiplication_polynome_scalaire(p_polyf_t p, float alpha) {
 	return res;
 }
 
-// FACTORISATION DE HORNER
 float eval_polynome(p_polyf_t p, float x) {
 	float res = p->coeff[p->degre];
 
@@ -133,6 +126,7 @@ p_polyf_t multiplication_polynomes(p_polyf_t p1, p_polyf_t p2) {
 
 	for (i = 0; i <= p1->degre; i++) {
 		for (j = 0; j <= p2->degre; j++) {
+			compteur_operation_non_creux += 2;
 			p3->coeff[i + j] = p3->coeff[i + j] + p1->coeff[i] * p2->coeff[j];
 		}
 	}

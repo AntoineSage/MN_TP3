@@ -1,7 +1,7 @@
 .PHONY: clean
 
 CC=gcc
-CFLAGS= -Wall -g
+CFLAGS= -Wall -g #-O0 
 LIBS= -lm
 
 ExecPoly= test_poly 
