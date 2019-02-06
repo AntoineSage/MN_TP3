@@ -1,0 +1,65 @@
+Perf multiplication_scalaire_polynome :
+1. Sans zero 16
+	 P 16 operations 0.010222 GFLOP/s
+	 C 16 operations 0.004291 GFLOP/s
+2. Avec zero
+	 P 16 operations 0.010526 GFLOP/s
+	 C 8 operations 0.003405 GFLOP/s
+1. Sans zero 128
+	 P 128 operations 0.003169 GFLOP/s
+	 C 128 operations 0.007245 GFLOP/s
+2. Avec zero
+	 P 128 operations 0.019962 GFLOP/s
+	 C 64 operations 0.012953 GFLOP/s
+1. Sans zero 1024
+	 P 1024 operations 0.029361 GFLOP/s
+	 C 1024 operations 0.027056 GFLOP/s
+2. Avec zero
+	 P 1024 operations 0.053994 GFLOP/s
+	 C 512 operations 0.022932 GFLOP/s
+1. Sans zero 4096
+	 P 4096 operations 0.216421 GFLOP/s
+	 C 4096 operations 0.168072 GFLOP/s
+2. Avec zero
+	 P 4096 operations 0.297881 GFLOP/s
+	 C 2048 operations 0.144989 GFLOP/s
+1. Sans zero 4096 * 4
+	 P 16384 operations 0.277001 GFLOP/s
+	 C 16384 operations 0.133742 GFLOP/s
+2. Avec zero
+	 P 16384 operations 0.200511 GFLOP/s
+	 C 8192 operations 0.154131 GFLOP/s
+
+Addition:
+1. Sans zero:
+	 P 16 operations 0.007738 GFLOP/s
+	 C 16 operations 0.000661 GFLOP/s
+2. Avec zeros
+	 P 8 operations 0.003969 GFLOP/s
+	 C 8 operations 0.003662 GFLOP/s
+1. Sans zero:
+	 P 128 operations 0.019758 GFLOP/s
+	 C 128 operations 0.002921 GFLOP/s
+2. Avec zeros
+	 P 64 operations 0.001201 GFLOP/s
+	 C 64 operations 0.008158 GFLOP/s
+1. Sans zero:
+	 P 1024 operations 0.016233 GFLOP/s
+	 C 1024 operations 0.004613 GFLOP/s
+2. Avec zeros
+	 P 512 operations 0.008611 GFLOP/s
+	 C 512 operations 0.006860 GFLOP/s
+1. Sans zero:
+	 P 4096 operations 0.111389 GFLOP/s
+	 C 4096 operations 0.050552 GFLOP/s
+2. Avec zeros
+	 P 2048 operations 0.047611 GFLOP/s
+	 C 2048 operations 0.047336 GFLOP/s
+1. Sans zero:
+	 P 16384 operations 0.216692 GFLOP/s
+	 C 16384 operations 0.054103 GFLOP/s
+2. Avec zeros
+	 P 8192 operations 0.126164 GFLOP/s
+	 C 8192 operations 0.053741 GFLOP/s
+
+ 

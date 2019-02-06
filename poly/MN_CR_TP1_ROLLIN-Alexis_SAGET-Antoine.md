@@ -78,9 +78,56 @@ Dans la forme, la fonction de multiplication s'apparente à un développement: p
 
 # 2 - Performances
 
-Pour les performances nous avons étudiés le nombre de `GFLOPS/s` pour les fonctions `addition_polynome`, `multiplication_scalaire_polynome`, `multiplication_polynome` et `composition_polynome` en fonction du degré d'optimisation du compilateur, de la taille des polynômes utilisés, du modèle choisi (creux ou non). Voici quelques tableaux récapitulatifs de ce qu'on nous avons pu remarquer de pertinent :
+Pour les performances nous avons étudiés le nombre de `GFLOPS/s` pour les fonctions `addition_polynome`, `multiplication_scalaire_polynome`, `multiplication_polynome` et `composition_polynome` en fonction du degré d'optimisation du compilateur, de la taille des polynômes utilisés, du modèle choisi (creux ou non). Voici ce qu'on nous avons pu remarquer de pertinent. (a savoir que le PC utilisé pour faire toutes ces études de performances est un Intel Core i5-6200U à 2.30GHz)
 
-tableaux / graph / explications
+## Optimisations du compilateur
+
+Nous avons recompilé le programme avec les options `-O`, `-O0`, `-O2`, `-O3`. Voici nos résultats pour l'implémentation non creuse (en GFLOP/s):
+
+Fonction |`-O0` | `-O`  | `-O2` | `-O3`
+:-: | :-: | :-: | :-: | :-:
+Addition (16384) | 0.243712 | 0.278220 | 0.425866 | 0.542454
+Multiplication (128) | 0.589408 |  0.665052 | 0.781436 | 1.596746
+Composition (32) | 0.563159 | 0.692761 | 1.676976 | 1.742801
+
+Il est évident avec de tel résultats que les optimisations à la compilation ont un impact non négligeable. On peut par exemple remarqué 3 fois plus d'opérations flottantes par secondes pour la composition entre la version sans optimisation et la version la plus optimisée.
+
+## Tailles des polynômes
+
+La taille des polynômes va faire varier le nombre d'opération par seconde car pour un polynôme petit le nombre d'opération et donc le temps de ces opérations est négligeable devant le reste de la fonction (accès mémoire, comparaisons, ...). Il est donc plus intéressant de travailler avec de grands polynômes. C'est surtout le cas pour les fonctions avec un nombre linéaire d'opération comme `addition_polynome` ou `multiplication_scalaire_polynome` contrairement au fonctions `multiplication_polynome` et `composition_polynome` qui font rapidement beaucoup d'opérations.
+
+Fonction | 128  | 1024 | 2048 | 16384
+:-: | :-: | :-: | :-: | :-:
+Addition | 0.003969 | 0.008611 | 0.047611 | 0.216692
+Multiplication Scalaire | 0.003169 | 0.029361 | 0.216421 | 0.277001
+
+Fonction | 8 | 16 | 32
+:-: | :-: | :-: | :-:
+Multiplication | 0.033808 | 0.060676 | 0.520831
+Composition | 0.048233 | 0.062286 | 0.474669
+
+## Les fonctions entre elles
+
+Avec les tableaux précédents on remarque qu'on obtient plus d'opérations par seconde pour multiplication et composition que pour addition et multiplication par scalaire. Même en augmentant encore la tailles des polynômes il est difficiles d'obtenir plus de 0.3 GFLOP/s pour la multiplication par un scalaire et pour l'addition (sans optimisation compilateur) tandis qu'on dépasse les 0.5 GFLOP/s avec Multiplication.
+
+La raison de ces différences est liée au fait que toutes les opérations pour la multiplcations ce font sur un espaces mémoire réduit tandis que pour addition par exemple pour addition, si l'on veut un nombre d'opération équivalent, on est forcé de travaillé avec un plus grand polynôme et donc un espace mémoire bien plus étendu.
+
+## Polynômes et polynômes creux
+
+Jusqu'à présent nous n'avons que vus les GFLOP/s des fonctions pour l'implémentation non creuse des polynômes. Voici maintenant un comparatif de quelques fonctions avec l'implémentation creuse :
+
+Fonction | Non creux | Creux
+:-: | :-: | :-: 
+Addition | 0.216692 | 0.054103
+Multiplication Scalaire | 0.277001 | 0.133742
+Multiplication | 0.520831 | 0.017214
+Composition | 0.474669 | 0.002526
+
+On remarque que l'implémentation creuse est généralement plus lente. Cela peut-être expliqué par le fait qu'on manipule une structure de données plus lourde (tableau de float contre tableau de paires int/float). Aussi, l'accès à un monôme d'un certain degré ce fait de manière instantannée avec l'implémentation non creuse, il suffit d'accéder à un indice donné du tableau. Pour l'implémentation creuse il est nécessaire de faire des recherches ce qui est plus lent.
+
+Cependant pour un polynôme creux, l'implémentation non creuse va faire beaucoup d'opération inutiles avec les 0 tandis que l'implémentation creuse ne feras que le nécessaire. Donc même si le nombre d'opérations flottantes par secondes de l'implémentation non creuse seras plus élévé que l'implémentation creuse, il peut arriver, suivant les polynôme qu'on choisis, que l'implémentation creuse soit plus rapide en temps d'exécution.
+
+## Consommation mémoire
 
 Concernant la consommation mémoire, il est évident qu'elle est inférieure pour l'implémentation creuse que pour l'implémentation non creuse lorsqu'on utilise des polynômes creux.  
 Par exemple le polynôme `2X^200` à un coût mémoire de `sizeof(float) * 200 + sizeof(int)` pour l'implémentation non creuse tandis qu'il sera pour les polynômes creux de `sizeof(int) + sizeof(paire)` et `sizeof(paire) = sizeof(int) + sizeof(float)`. 
@@ -88,9 +135,3 @@ Par exemple le polynôme `2X^200` à un coût mémoire de `sizeof(float) * 200 +
 En général `sizeof(int) = sizeof(float) = 4 octets` donc `200 * 4 + 4 = 804 octets` pour l'implémentation non creuse contre `4 + (4 + 4) = 12 octets` pour l'implémentation creuse.
 
 Cependant pour des polynômes pleins, l'implémentation non creuse est moins coûteuse en mémoire car la structure utilisée est plus légère : un entier par monôme contre deux entiers par monôme pour l'implémentation creuse. Si on refait les même calculs que précedemment pour le polynôme `1 + X + X^2 + X^3` on trouve `1 + 4 = 5 octets` pour l'implémentation non creuse et `1 + (2 * 4) = 9 octets` pour l'implémentation creuse. 
-
-tableau / explications
-
-Comparer des fonctions entre elles
-Comparer polynôme / polynôme creux
-Comparer en fonctions de la taille du polynôme étudié

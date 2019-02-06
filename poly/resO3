@@ -1,0 +1,28 @@
+Addition:
+1. Sans zero:
+	 P 16384 operations 0.542454 GFLOP/s
+	 C 16384 operations 0.159671 GFLOP/s
+2. Avec zeros
+	 P 8192 operations 0.252278 GFLOP/s
+	 C 8192 operations 0.165958 GFLOP/s
+Perf multiplication_scalaire_polynome :
+1. Sans zero
+	 P 16384 operations 0.472552 GFLOP/s
+	 C 16384 operations 0.213907 GFLOP/s
+2. Avec zero
+	 P 16384 operations 0.386534 GFLOP/s
+	 C 8192 operations 0.225324 GFLOP/s
+Multiplication de polynomes:
+1. Sans zero:
+	 P 32768 operations 1.596746 GFLOP/s
+	 C 32514 operations 0.018391 GFLOP/s
+2. Avec zeros 0
+	 P 32768 operations 1.668284 GFLOP/s
+	 C 8065 operations 0.034584 GFLOP/s
+Composition de polynomes:
+1. Sans zero:
+	 P 9885808 operations 1.742801 GFLOP/s
+	 C 9688801 operations 0.008372 GFLOP/s
+2. Avec zeros 0
+	 P 9885808 operations 1.460662 GFLOP/s
+	 C 263445 operations 0.029183 GFLOP/s
