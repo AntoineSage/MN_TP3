@@ -30,10 +30,6 @@ void test_egalite_polynome_creux() {
 void test_multiplication_polynome_scalaire_creux() {
 	p_polycreux_t p1 = lire_polynome_float_creux("p1c");
 	p_polycreux_t p2 = multiplication_polynome_scalaire_creux(p1, -1.0);
-	
-	p_polycreux_t p3 = lire_polynome_float_creux("pvidec");
-
-	assert(egalite_polynome_creux(p3, addition_polynome_creux(p1, p2)));
 }
 
 void test_multiplication_polynomes_creux() {
@@ -61,19 +57,19 @@ void assert_no_deg_0(p_polycreux_t p) {
 	}
 }
 
-	
-	/*p3=addition_polynome(p1,p2);
-	printf("Addition de p1 et p2:\n");  
-	ecrire_polynome_float (p3) ;
-	p3=multiplication_polynome_scalaire(p1,3);
-	printf("Multiplication de p1 par 3:\n"); 
-	ecrire_polynome_float (p3) ;
-	p3=puissance_polynome(p1,2);
-	printf("p1 puissance 2:\n"); 
-	ecrire_polynome_float (p3) ;
-	p3=composition_polynome(p1,p2); 
-	printf("Composée de p1 et p2:\n"); 
-	ecrire_polynome_float (p3) ; */
+
+/*p3=addition_polynome_creux(p1,p2);
+printf("Addition de p1 et p2:\n");
+ecrire_polynome_float_creux (p3) ;
+p3=multiplication_polynome_scalaire(p1,3);
+printf("Multiplication de p1 par 3:\n");
+ecrire_polynome_float_creux (p3) ;
+p3=puissance_polynome(p1,2);
+printf("p1 puissance 2:\n");
+ecrire_polynome_float_creux (p3) ;
+p3=composition_polynome(p1,p2);
+printf("Composée de p1 et p2:\n");
+ecrire_polynome_float_creux (p3) ; */
 
 void assert_croissant(p_polycreux_t p) {
 	register unsigned int i;
@@ -106,4 +102,3 @@ int main(int argc, char **argv) {
 	test_eval_polynome_creux();
 	printf("eval OK\n");
 }
-
