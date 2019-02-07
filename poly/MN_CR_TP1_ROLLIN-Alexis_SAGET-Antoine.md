@@ -5,7 +5,7 @@
 
 ## Lecture de fichier pour les polynômes creux
 
-Pour la lecture de fichier polynômes creux, on choisit le format suivant : 
+Pour la lecture de fichier polynômes creux, on choisit le format suivant :
 ```
 4
 0 2.0
@@ -33,7 +33,7 @@ typedef struct {
 
 Une structure avec un entier `nelem` qui correspond au nombre d'éléments du tableau `tab_paires` qui contient des `paires` elles-mêmes constituées de deux entiers pour le degré et coefficient de chaque monôme.
 
-Nous avons aussi fait le choix d'ordonner le tableau de paires par ordre croissant de degré. Cela permet notamment de faciliter les fonctions d'addition, égalité mais impose certaines contraintes pour maintenir l'ordre.
+Nous avons au	ssi fait le choix d'ordonner le tableau de paires par ordre croissant de degré. Cela permet notamment de faciliter les fonctions d'addition, égalité mais impose certaines contraintes pour maintenir l'ordre.
 
 ## L'ajout d'une paire dans un polynôme creux
 
@@ -41,7 +41,7 @@ Pour ajouter une paire dans un polynôme creux on cherche d'abord la position à
 
 ## La fonction d'égalité pour les polynômes creux
 
-Puisque nos deux polynômes ont leurs paires ordonnées par ordre croissant de degré il suffit d'une simple boucle qui compare les degrés et coefficients de chaque paire à chaque indice: 
+Puisque nos deux polynômes ont leurs paires ordonnées par ordre croissant de degré il suffit d'une simple boucle qui compare les degrés et coefficients de chaque paire à chaque indice:
 
 ```c
 register unsigned int i;
@@ -117,7 +117,7 @@ La raison de ces différences est liée au fait que toutes les opérations pour 
 Jusqu'à présent nous n'avons que vus les GFLOP/s des fonctions pour l'implémentation non creuse des polynômes. Voici maintenant un comparatif de quelques fonctions avec l'implémentation creuse :
 
 Fonction | Non creux | Creux
-:-: | :-: | :-: 
+:-: | :-: | :-:
 Addition | 0.216692 | 0.054103
 Multiplication Scalaire | 0.277001 | 0.133742
 Multiplication | 0.520831 | 0.017214
@@ -130,8 +130,8 @@ Cependant pour un polynôme creux, l'implémentation non creuse va faire beaucou
 ## Consommation mémoire
 
 Concernant la consommation mémoire, il est évident qu'elle est inférieure pour l'implémentation creuse que pour l'implémentation non creuse lorsqu'on utilise des polynômes creux.  
-Par exemple le polynôme `2X^200` à un coût mémoire de `sizeof(float) * 200 + sizeof(int)` pour l'implémentation non creuse tandis qu'il sera pour les polynômes creux de `sizeof(int) + sizeof(paire)` et `sizeof(paire) = sizeof(int) + sizeof(float)`. 
+Par exemple le polynôme `2X^200` à un coût mémoire de `sizeof(float) * 200 + sizeof(int)` pour l'implémentation non creuse tandis qu'il sera pour les polynômes creux de `sizeof(int) + sizeof(paire)` et `sizeof(paire) = sizeof(int) + sizeof(float)`.
 
 En général `sizeof(int) = sizeof(float) = 4 octets` donc `200 * 4 + 4 = 804 octets` pour l'implémentation non creuse contre `4 + (4 + 4) = 12 octets` pour l'implémentation creuse.
 
-Cependant pour des polynômes pleins, l'implémentation non creuse est moins coûteuse en mémoire car la structure utilisée est plus légère : un entier par monôme contre deux entiers par monôme pour l'implémentation creuse. Si on refait les même calculs que précedemment pour le polynôme `1 + X + X^2 + X^3` on trouve `1 + 4 = 5 octets` pour l'implémentation non creuse et `1 + (2 * 4) = 9 octets` pour l'implémentation creuse. 
+Cependant pour des polynômes pleins, l'implémentation non creuse est moins coûteuse en mémoire car la structure utilisée est plus légère : un entier par monôme contre deux entiers par monôme pour l'implémentation creuse. Si on refait les même calculs que précedemment pour le polynôme `1 + X + X^2 + X^3` on trouve `1 + 4 = 5 octets` pour l'implémentation non creuse et `1 + (2 * 4) = 9 octets` pour l'implémentation creuse.
