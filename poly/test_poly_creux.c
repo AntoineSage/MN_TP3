@@ -36,7 +36,7 @@ void test_multiplication_polynomes_creux() {
 	p_polycreux_t p1 = lire_polynome_float_creux("p1c");
 	p_polycreux_t p2 = lire_polynome_float_creux("pvidec");
 	p_polycreux_t p3 = multiplication_polynomes_creux(p1, p2);
-	
+
 	assert(egalite_polynome_creux(p3, p2));
 }
 
@@ -56,20 +56,6 @@ void assert_no_deg_0(p_polycreux_t p) {
 		assert(p->tab_paires[i].coeff != 0.0);
 	}
 }
-
-
-/*p3=addition_polynome_creux(p1,p2);
-printf("Addition de p1 et p2:\n");
-ecrire_polynome_float_creux (p3) ;
-p3=multiplication_polynome_scalaire(p1,3);
-printf("Multiplication de p1 par 3:\n");
-ecrire_polynome_float_creux (p3) ;
-p3=puissance_polynome(p1,2);
-printf("p1 puissance 2:\n");
-ecrire_polynome_float_creux (p3) ;
-p3=composition_polynome(p1,p2);
-printf("Composée de p1 et p2:\n");
-ecrire_polynome_float_creux (p3) ; */
 
 void assert_croissant(p_polycreux_t p) {
 	register unsigned int i;
