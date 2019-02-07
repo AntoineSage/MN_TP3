@@ -344,6 +344,6 @@ int main(int argc, char **argv) {
 	 } */
 	perf_addition_polynome(4096 * 4);
 	perf_multiplication_scalaire_polynome(4096 * 4 * 4 * 2);
-	// perf_multiplication_polynome(128);
-	// perf_composition_polynome(32);
+	perf_multiplication_polynome(128);
+	perf_composition_polynome(32);
 }
