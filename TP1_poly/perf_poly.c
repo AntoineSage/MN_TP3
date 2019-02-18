@@ -277,8 +277,6 @@ void perf_composition_polynome(int taille) {
 	calcul_flop("\t C", compteur_operation_creux, end - start);
 }
 
-// Nb d'opérations
-
 void perf_eval_polynome(int taille) {
 	printf("\n Perf eval_polynome :\n");
 	printf("1. Sans zero\n");
@@ -300,7 +298,7 @@ void perf_eval_polynome(int taille) {
 	assert(res == out);
 
 	start = _rdtsc();
-	out = eval_polynome_creux(p1_creux, 1.0);  // Pas sûr pour le nb d'opérations
+	out = eval_polynome_creux(p1_creux, 1.0);
 	end = _rdtsc();
 	calcul_flop("\r C", taille * 2, end - start);
 	assert(res == out);
@@ -321,27 +319,14 @@ void perf_eval_polynome(int taille) {
 	assert(res == out);
 
 	start = _rdtsc();
-	out = eval_polynome_creux(p1_creux, 1.0);  // Pas sûr pour le nb d'opérations
+	out = eval_polynome_creux(p1_creux, 1.0);
 	end = _rdtsc();
 	calcul_flop("\r C", (p1_creux->nelem) * 2, end - start);
 	assert(res == out);
 }
 
-#define NB_TAILLES 5
-int main(int argc, char **argv) {
-	/* int tailles[NB_TAILLES] = {8, 16, 32};
-	 int i;
 
-	 for (i = 0; i < NB_TAILLES; i++) {
-		 printf("Taille %d :\n", tailles[i]);
-		 // perf_egalite_polynome(tailles[i]);
-		 // perf_multiplication_scalaire_polynome(tailles[i]);
-		 // perf_addition_polynome(tailles[i]);
-
-		 perf_multiplication_polynome(tailles[i]);
-		 perf_composition_polynome(tailles[i]);
-		 printf("\n \n");
-	 } */
+int main(void) {
 	perf_addition_polynome(4096 * 4);
 	perf_multiplication_scalaire_polynome(4096 * 4 * 4 * 2);
 	perf_multiplication_polynome(128);

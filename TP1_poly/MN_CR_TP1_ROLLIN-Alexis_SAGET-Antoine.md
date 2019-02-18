@@ -6,13 +6,14 @@
 ## Lecture de fichier pour les polynômes creux
 
 Pour la lecture de fichier polynômes creux, on choisit le format suivant :
-```
+
+```c
 4
 0 2.0
 1 0.0
 2 3.0
 3 4.0
-``` 
+```
 
 Le premier entier indique le nombre d'élements puis chaque ligne contient un entier pour le degré et un entier pour le coefficient.
 
@@ -81,14 +82,16 @@ Dans la forme, la fonction de multiplication s'apparente à un développement: p
 ## Multiplication de deux polynômes creux
 
 Comme, avec les polynômes creux, on se sert du principe de développement. Cependant, cette fois-ci, impossible d'initialiser tous les coefficients à 0. Ainsi, après chaque calcul d'une nouvelle paire degré/coefficient, on se retrouve face à 2 cas:
+
 -Il existe déjà une paire degré/coefficient dans le polynôme résultat avec le même degré: dans ce cas-là on additionne les coefficients.
+
 -Il n'existe pas de paire degré/coefficient dans le polynôme résultat avec le même degré: on ajoute la nouvelle paire dans le polynôme résultat.
 
 ## Composition
 
 La compostion de `p` et `q` correspond mathématiquement à:
 $$
-\sum_{i=0}^{taille p * taille q} coeff i de p1*(p2^degre i de p1)
+\sum_{i=0}^{\text{taille p} \times \text{taille q}} p1[i].coef \times (p2^{p1[i].degre})
 $$
 
 \pagebreak
@@ -101,13 +104,13 @@ Pour les performances nous avons étudiés le nombre de `GFLOPS/s` pour les fonc
 
 Nous avons recompilé le programme avec les options `-O`, `-O0`, `-O2`, `-O3`. Voici nos résultats pour l'implémentation non creuse (en GFLOP/s):
 
-Fonction |`-O0` | `-O`  | `-O2` | `-O3`
-:-: | :-: | :-: | :-: | :-:
-Addition (16384) | 0.243712 | 0.278220 | 0.425866 | 0.542454
-Multiplication (128) | 0.589408 |  0.665052 | 0.781436 | 1.596746
-Composition (32) | 0.563159 | 0.692761 | 1.676976 | 1.742801
+Fonction | Taille du polynôme | `-O0` | `-O`  | `-O2` | `-O3`
+:-: | :-: | :-: | :-: | :-: | :-:
+Addition | 16384 | 0.243712 | 0.278220 | 0.425866 | 0.542454
+Multiplication | 128 | 0.589408 |  0.665052 | 0.781436 | 1.596746
+Composition | 32 | 0.563159 | 0.692761 | 1.676976 | 1.742801
 
-Il est évident avec de tel résultats que les optimisations à la compilation ont un impact non négligeable. On peut par exemple remarqué 3 fois plus d'opérations flottantes par secondes pour la composition entre la version sans optimisation et la version la plus optimisée.
+Il est évident avec de tels résultats que les optimisations à la compilation ont un impact non négligeable. On peut par exemple remarquer 3 fois plus d'opérations flottantes par secondes pour la composition entre la version sans optimisation et la version la plus optimisée.
 
 ## Tailles des polynômes
 
@@ -127,16 +130,14 @@ Composition | 0.048233 | 0.062286 | 0.474669
 
 Avec les tableaux précédents on remarque qu'on obtient plus d'opérations par seconde pour multiplication et composition que pour addition et multiplication par scalaire. Même en augmentant encore la tailles des polynômes il est difficiles d'obtenir plus de 0.3 GFLOP/s pour la multiplication par un scalaire et pour l'addition (sans optimisation compilateur) tandis qu'on dépasse les 0.5 GFLOP/s avec multiplication.
 
-Pour faire `N` opérations avec la fonction d'addition on a besoin de deux polynôme de degré `N - 1` et pour faire l'addition on feras alors `2 * N` rapattriements de la mémoire centrale vers les registres du processeur ce qui a un coût non négligeable en temps.
+\pagebreak
 
-Pour faire `N` opération avec la fonction de multiplication il suffit d'un polynôme `p1` de degré `0` et un polynôme `p2` de degré `N - 1`. Lors du développement on va alors ne faire que `1 + N` rapattriements de la mémoire centrale vers les registres du processeur (`1` pour `p1[0]` et `N` pour `p2[i]`).
+Pour faire `N` opérations avec la fonction d'addition on a besoin de deux polynômes de degré `N - 1` et on fera alors `2 * N` rapatriements de la mémoire centrale vers les registres du processeur ce qui a un coût non négligeable en temps.
+
+
+Pour faire `N` opérations avec la fonction de multiplication il suffit d'un polynôme `p1` de degré `0` et un polynôme `p2` de degré `N - 1`. Lors du développement on va alors ne faire que `1 + N` rapatriements de la mémoire centrale vers les registres du processeur (`1` pour `p1[0]` et `N` pour `p2[i]`).
 
 On a donc fais le même nombre d'opération avec les deux fonctions mais avec deux fois moins d'accès mémoire pour la multiplication.
-
-Au vu des études de performances, la multiplication fait plus d'opérations flottantes par secondes que l'addition. Cela est explicable par une "rentabilisation" du temps de calcul. Dans l'addition, pour chaque p1[i] on effectue une opération `+` avec p2[i]. Il faut aussi prendre en compte le coût en temps CM pour ramener p1[i] et p2[i] de la mémoire centrale dans les caches et registres du processeur/coeur. On fait donc une seule opération dans un temps CM+o(CM) (pour simplifier l'explication, on choisit de négliger le temps de l'opération `+`).
-Dans la multiplication, pour chaque p1[i] on effectue une opération `*` avec p2[i], c'est-à-dire N opérations `+`. On fait donc N opérations dans un temps CM+o(CM), légèrement supérieur au temps précédent.
-Globalement, on a donc 1/(CM+o(CM)) opération/s pour l'addition et N/(CM+o(CM)) opération/s pour la multiplication.
-
 
 ## Polynômes et polynômes creux
 
@@ -149,9 +150,9 @@ Multiplication Scalaire | 0.277001 | 0.133742
 Multiplication | 0.520831 | 0.017214
 Composition | 0.474669 | 0.002526
 
-On remarque que l'implémentation creuse est généralement plus lente. Cela peut-être expliqué par le fait qu'on manipule une structure de données plus lourde (tableau de float contre tableau de paires int/float). Aussi, l'accès à un monôme d'un certain degré ce fait de manière instantannée avec l'implémentation non creuse, il suffit d'accéder à un indice donné du tableau. Pour l'implémentation creuse il est nécessaire de faire des recherches ce qui est plus lent.
+On remarque que l'implémentation creuse est généralement plus lente. Cela peut-être expliqué par le fait qu'on manipule une structure de données plus lourde (tableau de float contre tableau de paires int/float). Aussi, l'accès à un monôme d'un certain degré ce fait de manière instantanée avec l'implémentation non creuse, il suffit d'accéder à un indice donné du tableau. Pour l'implémentation creuse il est nécessaire de faire des recherches ce qui est plus lent.
 
-Cependant pour un polynôme creux, l'implémentation non creuse va faire beaucoup d'opération inutiles avec les 0 tandis que l'implémentation creuse ne feras que le nécessaire. Donc même si le nombre d'opérations flottantes par secondes de l'implémentation non creuse seras plus élévé que l'implémentation creuse, il peut arriver, suivant les polynôme qu'on choisis, que l'implémentation creuse soit plus rapide en temps d'exécution.
+Cependant pour un polynôme creux, l'implémentation non creuse va faire beaucoup d'opération inutiles avec les 0 tandis que l'implémentation creuse ne fera que le nécessaire. Donc même si le nombre d'opérations flottantes par secondes de l'implémentation non creuse sera plus élévé que l'implémentation creuse, il peut arriver, suivant les polynôme qu'on choisit, que l'implémentation creuse soit plus rapide en temps d'exécution.
 
 ## Consommation mémoire
 
