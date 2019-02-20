@@ -6,3 +6,6 @@ TP1_poly/test_poly_creux
 .template.latex
 .test.theme
 *.pdf
+*.gch
+*.a
+*.so
