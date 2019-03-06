@@ -3,6 +3,7 @@
         "assert.h": "c",
         "stdlib.h": "c",
         "mnblas.h": "c",
-        "complexe.h": "c"
+        "complexe.h": "c",
+        "stdio.h": "c"
     }
 }
