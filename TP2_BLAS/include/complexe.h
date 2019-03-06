@@ -15,7 +15,7 @@ complexe_double_t add_complexe_double(const complexe_double_t c1, const complexe
 
 complexe_float_t mult_scalaire_float(const complexe_float_t c, const float a);
 
-complexe_double_t mult_scalaire_double(const complexe_double_t c, const float a);
+complexe_double_t mult_scalaire_double(const complexe_double_t c, const double a);
 
 complexe_float_t mult_complexe_float(const complexe_float_t c1, const complexe_float_t c2);
 

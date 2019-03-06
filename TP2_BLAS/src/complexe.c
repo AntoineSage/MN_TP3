@@ -25,7 +25,7 @@ complexe_float_t mult_scalaire_float(const complexe_float_t c, const float a){
 	return r;
 }
 
-complexe_double_t mult_scalaire_float(const complexe_double_t c, const double a){
+complexe_double_t mult_scalaire_double(const complexe_double_t c, const double a){
 	complexe_double_t r;
 	r.real = a*c.real;
 	r.imaginary = a*c.imaginary;
@@ -76,8 +76,8 @@ void init_complexe_double(const int N, const double *a, const double *b, const v
 
 	for (; (i < N); i++)
     {
-    	((complexe_double_t*)res[i]).real = a[i];
-		((complexe_double_t*)res[i]).imaginary = b[i];
+    	(((complexe_double_t*)res)[i]).real = a[i];
+		(((complexe_double_t*)res)[i]).imaginary = b[i];
     }
 
 	return ;
