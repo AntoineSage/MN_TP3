@@ -32,40 +32,39 @@ void mncblas_dswap(const int N, double *X, const int incX,
       X [i] = save ;
     }
 
-  return ;
+	return;
 }
 
-void mncblas_cswap(const int N, void *X, const int incX, 
-		                    void *Y, const int incY)
-{
-  register unsigned int i = 0 ;
-  register unsigned int j = 0 ;
-  complexe_float_t save ;  
+void mncblas_cswap(const int N, void *X, const int incX, void *Y, const int incY) {
+	register unsigned int i = 0;
+	register unsigned int j = 0;
+	register complexe_float_t save;
 
-  for (; ((i < N) && (j < N)) ; i += incX, j+=incY)
-    {
-      save = ((complexe_float_t*)Y) [j] ;
-      ((complexe_float_t*)Y) [j] = ((complexe_float_t*)X) [i] ;
-      ((complexe_float_t*)X) [i] = save ;
-    }
+	register complexe_float_t *X_c = (complexe_float_t *)X;
+	register complexe_float_t *Y_c = (complexe_float_t *)Y;
 
-  return ;
+	for (; ((i < N) && (j < N)); i += incX, j += incY) {
+		save = Y_c[i];
+		Y_c[j] = X_c[i];
+		X_c[i] = save;
+	}
+
+	return;
 }
 
-void mncblas_zswap(const int N, void *X, const int incX, 
-		                    void *Y, const int incY)
-{
-  register unsigned int i = 0 ;
-  register unsigned int j = 0 ;
-  complexe_double_t save ;
-  
-  for (; ((i < N) && (j < N)) ; i += incX, j+=incY)
-    {
-      save = ((complexe_double_t*)Y) [j] ;
-      ((complexe_double_t*)Y) [j] = ((complexe_double_t*)X) [i] ;
-      ((complexe_double_t*)X) [i] = save ;
-    }
+void mncblas_zswap(const int N, void *X, const int incX, void *Y, const int incY) {
+	register unsigned int i = 0;
+	register unsigned int j = 0;
+	register complexe_double_t save;
 
-  return ;
+	register complexe_double_t *X_c = (complexe_double_t *)X;
+	register complexe_double_t *Y_c = (complexe_double_t *)Y;
+
+	for (; ((i < N) && (j < N)); i += incX, j += incY) {
+		save = Y_c[i];
+		Y_c[j] = X_c[i];
+		X_c[i] = save;
+	}
+
+	return;
 }
-

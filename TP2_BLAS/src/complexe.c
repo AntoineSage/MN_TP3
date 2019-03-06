@@ -1,4 +1,5 @@
 #include <complexe.h>
+#include <math.h>
 
 complexe_float_t add_complexe_float(const complexe_float_t c1, const complexe_float_t c2) {
 	complexe_float_t r;
@@ -81,5 +82,24 @@ void init_complexe_double(const int N, const double *a, const double *b, const v
     }
 
 	return ;
+}
 
- }
+int complexe_equal_double(const complexe_double_t a, const complexe_double_t b) {
+	return (a.real == b.real) && (a.imaginary == b.imaginary);
+}
+
+float module_complexe_float(const complexe_float_t a) {
+	return sqrt(a.real * a.real + a.imaginary * a.imaginary);
+}
+
+double module_complexe_double(const complexe_double_t a) {
+	return sqrt(a.real * a.real + a.imaginary * a.imaginary);
+}
+
+float module_complexe_squared_float(const complexe_float_t a) {
+	return a.real * a.real + a.imaginary * a.imaginary;
+}
+
+double module_complexe_squared_double(const complexe_double_t a) {
+	return a.real * a.real + a.imaginary * a.imaginary;
+}

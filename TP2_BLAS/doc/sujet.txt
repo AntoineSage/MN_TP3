@@ -65,7 +65,7 @@ swap V
 copy V 
 dot V
 axpy V
-asum
+asum V
 iamin
 iamax
 nrm2
