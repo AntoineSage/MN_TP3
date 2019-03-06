@@ -24,3 +24,9 @@ complexe_double_t mult_complexe_conjug_double(const complexe_double_t c1,
 
 int complexe_equal_float(const complexe_float_t a, const complexe_float_t b);
 int complexe_equal_double(const complexe_double_t a, const complexe_double_t b);
+
+float module_complexe_float(const complexe_float_t a);
+double module_complexe_double(const complexe_double_t a);
+
+float module_complexe_squared_float(const complexe_float_t a);
+double module_complexe_squared_double(const complexe_double_t a);

@@ -7,7 +7,7 @@ int main(int argc, char const *argv[]) {
 	printf("TEST DES FONCTIONS BLAS1 COPY :\n");
 
 	// ---- FLOAT ----
-	float af[5] = {1.0, 2.0, 3.0, 4.0};
+	float af[5] = {1.0, 2.0, 3.0, 4.0, 5.0};
 	float bf[5];
 
 	mncblas_scopy(5, af, 1, bf, 1);
@@ -18,7 +18,7 @@ int main(int argc, char const *argv[]) {
 	}
 
 	// ---- DOUBLE ----
-	double ad[5] = {1.0, 2.0, 3.0, 4.0};
+	double ad[5] = {1.0, 2.0, 3.0, 4.0, 5.0};
 	double bd[5];
 
 	mncblas_dcopy(5, ad, 2, bd, 1);
