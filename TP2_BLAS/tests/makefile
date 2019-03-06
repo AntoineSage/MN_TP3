@@ -8,7 +8,7 @@ OPTIONS_COMPIL  =-Wall -fPIC -I$(INC_DIR) -lm
 
 OPTIONS_LINK_STATIC  =   -L$(LIB_DIR) $(LIBST)  
 
-EXECS = test_copy test_dot test_swap text_axpy
+EXECS = test_copy test_dot test_swap test_axpy
 
 all: $(EXECS)
 

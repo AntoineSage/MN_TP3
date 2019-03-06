@@ -15,6 +15,12 @@ int main(int argc, char const *argv[]) {
 
     float b[5] = {1.0, 4.0, 0.0, 3.0, -2.0};
 
-    init_complexe_float(n, a, b, res);
+	complexe_double_t *c;
+
+    init_complexe_float(n, a, b, c);
+
+	res=mncblas_scasum(5, c, 1);
+
+	assert(res==28);
 
 }
