@@ -54,3 +54,11 @@ complexe_double_t mult_complexe_conjug_double(const complexe_double_t c1,
 
 	return r;
 }
+
+int complexe_equal_float(const complexe_float_t a, const complexe_float_t b) {
+	return (a.real == b.real) && (a.imaginary == b.imaginary);
+}
+
+int complexe_equal_double(const complexe_double_t a, const complexe_double_t b) {
+	return (a.real == b.real) && (a.imaginary == b.imaginary);
+}
