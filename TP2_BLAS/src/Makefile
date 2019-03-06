@@ -19,7 +19,7 @@ libmnblas.a: copy.o swap.o dot.o complexe.o
 
 libmnblasdyn.so:copy.o swap.o dot.o complexe.o
 	rm -f libmnblasdyn.so $(LIB_DIR)/libmnblasdyn.so
-	gcc -shared -o libmnblasdyn.so copy.o swap.o dot.o complexe.o
+	gcc -shared -fPIC -o libmnblasdyn.so copy.o swap.o dot.o complexe.o
 	cp libmnblasdyn.so $(LIB_DIR)
 
 complexe.o: $(INC_DIR)/complexe.h complexe.c
