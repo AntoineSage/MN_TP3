@@ -1,4 +1,4 @@
-all: test_dot test_dot_dyn test_copy
+all: test_dot test_dot_dyn test_copy test_swap
 
 INC_DIR=../include
 
@@ -21,6 +21,9 @@ flop.o: flop.c flop.h
 test_dot_dyn: test_dot.o flop.o
 	gcc -o test_dot_dyn flop.o test_dot.o $(OPTIONS_LINK_DYN)
 
+test_swap: test_swap.o
+	gcc -o test_swap test_swap.o $(OPTIONS_LINK_DYN)
+
 test_dot.o: test_dot.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_dot.c
 
@@ -31,6 +34,9 @@ test_copy_dyn: test_copy.o flop.o
 	gcc -o test_copy_dyn flop.o test_copy.o $(OPTIONS_LINK_DYN)
 
 test_copy.o: test_copy.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS_COMPIL) -c $^
+
+test_swap.o: test_swap.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c $^
 
 clean:
