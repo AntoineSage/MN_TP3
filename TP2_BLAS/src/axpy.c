@@ -35,7 +35,7 @@ void cblas_caxpy (const int N, const void *a, const void *X, const int incX, voi
 
   for (; ((i < N) && (j < N)) ; i += incX, j+=incY)
     {
-      ((complexe_float_t*)Y)[j] = a*((complexe_float_t*)X)[i] ;
+      ((complexe_float_t*)Y)[j] = mult_complexe_float ((complexe_double_t*)X)[i], (complexe_double_t) a);
     }
 
   return ;
@@ -48,9 +48,10 @@ void cblas_zaxpy (const int N, const void *a, const void *X, const int incX, voi
 
   for (; ((i < N) && (j < N)) ; i += incX, j+=incY)
     {
-      ((complexe_double_t*)Y)[j] = a*((complexe_double_t*)X)[i] ;
+      ((complexe_double_t*)Y)[j] = mult_complexe_double ((complexe_float_t*)X)[i], (complexe_float_t) a);
     }
 
   return ;
 }
+
 

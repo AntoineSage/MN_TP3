@@ -2,6 +2,7 @@
     "files.associations": {
         "assert.h": "c",
         "stdlib.h": "c",
-        "mnblas.h": "c"
+        "mnblas.h": "c",
+        "complexe.h": "c"
     }
 }
