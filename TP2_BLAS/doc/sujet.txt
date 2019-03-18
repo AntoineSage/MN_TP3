@@ -66,9 +66,9 @@ copy V
 dot V
 axpy V
 asum V
-iamin
-iamax
-nrm2
+iamin V
+iamax V
+nrm2 V
 
 7) BLAS2
 
