@@ -2,13 +2,13 @@ INC_DIR=../include
 
 LIB_DIR=../lib
 
-LIBST=-lmnblas
+LIBST=-lmnblas -lm
 
-OPTIONS_COMPIL  =-Wall -fPIC -I$(INC_DIR) -lm
+OPTIONS_COMPIL  =-Wall -fPIC -I$(INC_DIR)
 
 OPTIONS_LINK_STATIC  =   -L$(LIB_DIR) $(LIBST)  
 
-EXECS = test_copy test_dot test_swap text_axpy
+EXECS = test_copy test_dot test_swap test_nrm2
 
 all: $(EXECS)
 

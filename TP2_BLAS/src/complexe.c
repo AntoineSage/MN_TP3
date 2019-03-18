@@ -91,11 +91,11 @@ int complexe_equal_double(const complexe_double_t a, const complexe_double_t b) 
 }
 
 float module_complexe_float(const complexe_float_t a) {
-	return 0;  // sqrt(a.real * a.real + a.imaginary * a.imaginary);
+	return sqrt(a.real * a.real + a.imaginary * a.imaginary);
 }
 
 double module_complexe_double(const complexe_double_t a) {
-	return 0;  // sqrt(a.real * a.real + a.imaginary * a.imaginary);
+	return sqrt(a.real * a.real + a.imaginary * a.imaginary);
 }
 
 float module_complexe_squared_float(const complexe_float_t a) {

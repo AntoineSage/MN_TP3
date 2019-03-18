@@ -9,3 +9,7 @@ TP1_poly/test_poly_creux
 *.gch
 *.a
 *.so
+test_copy
+test_dot
+test_nrm2
+test_swap
