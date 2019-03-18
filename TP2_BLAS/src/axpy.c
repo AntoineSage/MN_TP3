@@ -10,8 +10,6 @@ void mncblas_saxpy(const int N, const float a, const float *X, const int incX, f
 	for (; ((i < N) && (j < N)); i += incX, j += incY) {
 		Y[j] += a * X[i];
 	}
-
-	return;
 }
 
 void mncblas_daxpy(const int N, const double a, const double *X, const int incX, double *Y,
@@ -22,8 +20,6 @@ void mncblas_daxpy(const int N, const double a, const double *X, const int incX,
 	for (; ((i < N) && (j < N)); i += incX, j += incY) {
 		Y[j] += a * X[i];
 	}
-
-	return;
 }
 
 void mncblas_caxpy(const int N, const void *a, const void *X, const int incX, void *Y,
@@ -36,8 +32,6 @@ void mncblas_caxpy(const int N, const void *a, const void *X, const int incX, vo
 			mult_complexe_float(((complexe_float_t *)X)[i], *(complexe_float_t *)(a)),
 			((complexe_float_t *)Y)[j]);
 	}
-
-	return;
 }
 
 void mncblas_zaxpy(const int N, const void *a, const void *X, const int incX, void *Y,
@@ -46,9 +40,8 @@ void mncblas_zaxpy(const int N, const void *a, const void *X, const int incX, vo
 	register unsigned int j = 0;
 
 	for (; ((i < N) && (j < N)); i += incX, j += incY) {
-		((complexe_double_t *)Y)[j] =
-			mult_complexe_double(((complexe_double_t *)X)[i], *(complexe_double_t *)(a));
+		((complexe_double_t *)Y)[j] = add_complexe_double(
+			mult_complexe_double(((complexe_double_t *)X)[i], *(complexe_double_t *)(a)),
+			*(complexe_double_t *)(a));
 	}
-
-	return;
 }

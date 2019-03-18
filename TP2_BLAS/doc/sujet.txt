@@ -11,7 +11,7 @@ Deux fichiers Makefile sont fournis, un premier  pour compiler votre bibliothèq
 dans le répertoire src et un second fichier Makefile pour compiler les programmes
 examples.
 
-Deux bibliothèques sont générées, une bibliithèque statique (libmnblas.a) et
+Deux bibliothèques sont générées, une bibliothèque statique (libmnblas.a) et
 une bibliothèque dynamique (libmnblasdyn.o)
 
 Les fonctions de votre bibliothèque opéreront sur des vecteurs et
