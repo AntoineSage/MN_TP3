@@ -13,3 +13,4 @@ test_copy
 test_dot
 test_nrm2
 test_swap
+dep.mk
