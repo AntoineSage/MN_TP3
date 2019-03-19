@@ -1,3 +1,6 @@
+#ifndef _COMPLEXE_H_
+#define _COMPLEXE_H_
+
 typedef struct {
 	float real;
 	float imaginary;
@@ -33,3 +36,5 @@ double module_complexe_double(const complexe_double_t a);
 
 float module_complexe_squared_float(const complexe_float_t a);
 double module_complexe_squared_double(const complexe_double_t a);
+
+#endif

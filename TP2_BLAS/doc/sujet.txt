@@ -88,3 +88,12 @@ niveau des programmes exemples.  Vous commenterez les résultats
 obtenus en comparant les fonctions avec les différents types de
 données et aussi en comparant les résultats obtenus sur les BLAS1,
 BLAS2 et BLAS3.
+
+dot
+copy 
+axpy 
+gemv 
+gemm
+
+BLAS3 > BLAS2 > BLAS1
+Complex > Reel

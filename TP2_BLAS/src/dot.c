@@ -25,8 +25,8 @@ double mncblas_ddot(const int N, const double *X, const int incX, const double *
 	return dot;
 }
 
-void mncblas_cdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY,
-					   void *dotu) {
+void mncblas_cdotu(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotu) {
 	register unsigned int i = 0;
 	register unsigned int j = 0;
 
@@ -41,8 +41,8 @@ void mncblas_cdotu_sub(const int N, const void *X, const int incX, const void *Y
 	}
 }
 
-void mncblas_cdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY,
-					   void *dotc) {
+void mncblas_cdotc(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotc) {
 	register unsigned int i = 0;
 	register unsigned int j = 0;
 
@@ -57,8 +57,8 @@ void mncblas_cdotc_sub(const int N, const void *X, const int incX, const void *Y
 	}
 }
 
-void mncblas_zdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY,
-					   void *dotu) {
+void mncblas_zdotu(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotu) {
 	register unsigned int i = 0;
 	register unsigned int j = 0;
 
@@ -73,8 +73,8 @@ void mncblas_zdotu_sub(const int N, const void *X, const int incX, const void *Y
 	}
 }
 
-void mncblas_zdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY,
-					   void *dotc) {
+void mncblas_zdotc(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotc) {
 	register unsigned int i = 0;
 	register unsigned int j = 0;
 

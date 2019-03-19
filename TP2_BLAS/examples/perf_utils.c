@@ -6,9 +6,29 @@ void vector_init(vfloat V, float x) {
 
 	for (i = 0; i < VECSIZE; i++)
 		V[i] = x;
-
-	return;
 }
+
+void vector_init_d(vdouble V, double x) {
+	register unsigned int i;
+
+	for (i = 0; i < VECSIZE; i++)
+		V[i] = x;
+}
+
+void vector_init_c(vcomplex V, complexe_float_t x) {
+	register unsigned int i;
+
+	for (i = 0; i < VECSIZE; i++)
+		V[i] = x;
+}
+
+void vector_init_z(vcomplexd V, complexe_double_t x) {
+	register unsigned int i;
+
+	for (i = 0; i < VECSIZE; i++)
+		V[i] = x;
+}
+
 
 void vector_print(vfloat V) {
 	register unsigned int i;
@@ -16,6 +36,4 @@ void vector_print(vfloat V) {
 	for (i = 0; i < VECSIZE; i++)
 		printf("%f ", V[i]);
 	printf("\n");
-
-	return;
 }
