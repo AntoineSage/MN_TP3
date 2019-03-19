@@ -61,17 +61,17 @@ float mncblas_sdot(const int N, const float *X, const int incX, const float *Y, 
 
 double mncblas_ddot(const int N, const double *X, const int incX, const double *Y, const int incY);
 
-void mncblas_cdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY,
-					   void *dotu);
+void mncblas_cdotu(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotu);
 
-void mncblas_cdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY,
-					   void *dotc);
+void mncblas_cdotc(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotc);
 
-void mncblas_zdotu_sub(const int N, const void *X, const int incX, const void *Y, const int incY,
-					   void *dotu);
+void mncblas_zdotu(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotu);
 
-void mncblas_zdotc_sub(const int N, const void *X, const int incX, const void *Y, const int incY,
-					   void *dotc);
+void mncblas_zdotc(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotc);
 
 /*
   END BLAS DOT
