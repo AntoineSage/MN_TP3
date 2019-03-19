@@ -10,7 +10,7 @@ OPTIONS=-Wall -fPIC $(OPTIM) -I$(INC_DIR)
 
 CC= gcc
 
-OBJ= copy.o swap.o dot.o nrm2.o complexe.o iamin.o iamax.o asum.o axpy.o
+OBJ= copy.o swap.o dot.o nrm2.o complexe.o iamin.o iamax.o asum.o axpy.o gemm.o
 
 # Bibliothèque statique
 
