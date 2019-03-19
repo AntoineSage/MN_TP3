@@ -1,31 +1,34 @@
-all: test_dot test_dot_dyn test_copy test_swap
+.PHONY: clean all
 
 INC_DIR=../include
-
 LIB_DIR=../lib
 
-LIBST=-lmnblas
-LIBDYN=-lmnblasdyn
+LIBST=-lmnblas -lm
+LIBDYN=-lmnblasdyn -lm
 
-OPTIONS_COMPIL  =-Wall -fPIC -I$(INC_DIR)
+OPTIONS_COMPIL=-Wall -fPIC -I$(INC_DIR)
 
 OPTIONS_LINK_STATIC  =   -L$(LIB_DIR) $(LIBST)  
 OPTIONS_LINK_DYN  = -L$(LIB_DIR) $(LIBDYN) 
 
-test_dot: test_dot.o flop.o $(LIB_DIR)/libmnblas.a
-	gcc -o test_dot test_dot.o flop.o $(OPTIONS_LINK_STATIC)
+CC=gcc
 
-flop.o: flop.c flop.h
-	gcc $(OPTIONS_COMPIL) -c flop.c
+PERF= perf_dot perf_dot_dyn
 
-test_dot_dyn: test_dot.o flop.o
-	gcc -o test_dot_dyn flop.o test_dot.o $(OPTIONS_LINK_DYN)
+all: $(PERF)
 
-test_swap: test_swap.o
-	gcc -o test_swap test_swap.o $(OPTIONS_LINK_DYN)
+perf_dot: perf_dot.o flop.o $(LIB_DIR)/libmnblas.a
+	gcc -o perf_dot perf_dot.o flop.o $(OPTIONS_LINK_STATIC)
 
-test_dot.o: test_dot.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS_COMPIL) -c test_dot.c
+perf_dot_dyn: perf_dot.o flop.o
+	gcc -o perf_dot_dyn flop.o perf_dot.o $(OPTIONS_LINK_DYN)
+
+%.o:%.c 
+	$(CC) $(OPTIONS_COMPIL) -c $< 
+
+-include dep.mk
+dep.mk:
+	$(CC) -MM *.c -I$(INC_DIR) > $@
 
 clean:
-	rm -f *.o test_dot test_dot_dyn *~
+	rm -f *.o $(PERF) *~ dep.mk

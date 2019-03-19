@@ -16,7 +16,11 @@ $(EXECS): %: %.o $(LIB_DIR)/libmnblas.a
 	gcc -o $@ $< $(OPTIONS_LINK_STATIC)
 
 %.o: %.c
-	gcc $(OPTIONS_COMPIL) -c $^
+	gcc $(OPTIONS_COMPIL) -c $<
+
+-include dep.mk
+dep.mk:
+	$(CC) -MM *.c -I$(INC_DIR) > $@
 
 clean:
-	rm -f *.o $(EXECS) *~
+	rm -f *.o $(EXECS) *~ dep.mk
