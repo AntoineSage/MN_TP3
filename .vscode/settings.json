@@ -4,6 +4,7 @@
         "stdlib.h": "c",
         "mnblas.h": "c",
         "complexe.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "perf_utils.h": "c"
     }
 }

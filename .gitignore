@@ -9,3 +9,12 @@ TP1_poly/test_poly_creux
 *.gch
 *.a
 *.so
+test_copy
+test_dot
+test_nrm2
+test_swap
+dep.mk
+test_axpy
+test_iamin_iamax
+perf_dot
+perf_dot_dyn
