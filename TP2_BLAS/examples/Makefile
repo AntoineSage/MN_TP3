@@ -13,22 +13,28 @@ OPTIONS_LINK_DYN  = -L$(LIB_DIR) $(LIBDYN)
 
 CC=gcc
 
-PERF= perf_dot perf_dot_dyn
+PERF= perf_dot 
+PERFDYN= $(PERF:%=%_dyn)
 
-all: $(PERF)
+SHARE = flop.o perf_utils.o
 
-perf_dot: perf_dot.o flop.o $(LIB_DIR)/libmnblas.a
-	gcc -o perf_dot perf_dot.o flop.o $(OPTIONS_LINK_STATIC)
+all: $(PERF) $(PERFDYN)
 
-perf_dot_dyn: perf_dot.o flop.o
-	gcc -o perf_dot_dyn flop.o perf_dot.o $(OPTIONS_LINK_DYN)
+perf_dot_dyn: perf_dot.o 
+
+$(PERF):%:%.o $(SHARE) $(LIB_DIR)/libmnblas.a
+	$(CC) -o $@ $< $(SHARE) $(OPTIONS_LINK_STATIC)
+
+$(PERFDYN):$(SHARE)
+	$(CC) -o $@ $^ $(OPTIONS_LINK_DYN)
 
 %.o:%.c 
 	$(CC) $(OPTIONS_COMPIL) -c $< 
+
 
 -include dep.mk
 dep.mk:
 	$(CC) -MM *.c -I$(INC_DIR) > $@
 
 clean:
-	rm -f *.o $(PERF) *~ dep.mk
+	rm -f *.o $(PERF) $(PERFDYN) *~ dep.mk
