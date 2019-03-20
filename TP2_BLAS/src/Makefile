@@ -6,7 +6,7 @@ all: libmnblas.a libmnblasdyn.so
 LIB_DIR=../lib
 INC_DIR=../include
 
-OPTIONS=-Wall -fPIC $(OPTIM) -I$(INC_DIR)
+OPTIONS=-Wall -fPIC $(OPTIM) -I$(INC_DIR) -O2
 
 CC= gcc
 
