@@ -13,7 +13,7 @@ OPTIONS_LINK_DYN  = -L$(LIB_DIR) $(LIBDYN)
 
 CC=gcc
 
-PERF= perf_dot perf_copy
+PERF= perf_dot perf_copy perf_axpy
 PERFDYN= $(PERF:%=%_dyn)
 
 SHARE = flop.o perf_utils.o

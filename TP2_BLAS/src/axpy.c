@@ -32,8 +32,6 @@ void mncblas_caxpy(const int N, const void *a, const void *X, const int incX, vo
 		((complexe_float_t *)Y)[j] = add_complexe_float(
 			mult_complexe_float(((complexe_float_t *)X)[i], ((complexe_float_t *)a)[0]),
 			((complexe_float_t *)Y)[j]);
-		printf("re%f\n",((complexe_float_t *)Y)[j].real);
-		printf("im%f\n",((complexe_float_t *)Y)[j].imaginary);
 	}
 }
 
