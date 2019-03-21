@@ -3,10 +3,38 @@
 #include "mnblas.h"
 
 
-void cblas_sgemv (const CBLAS_LAYOUT Layout, const CBLAS_TRANSPOSE trans, const MKL_INT m, const MKL_INT n,
- const float alpha, const float *a, const MKL_INT lda, const float *x, const MKL_INT incx, const float beta, float *y, const MKL_INT incy){
+void mncblas_sgemv(const MNCBLAS_LAYOUT layout, const MNCBLAS_TRANSPOSE TransA, const int M, const int N, const float alpha, const float *A, 
+const int lda, const float *X, const int incX, const float beta, float *Y, const int incY);{
+    
+    // Cas où il n'y a rien à faire
+	if (M == 0 || N == 0 || (alpha == 0 && beta == 1)) return;
 
-     
+	// Beta = 0 -> des 0 partout dans le vecteur Y
+	if (beta == 0) {
+		register unsigned int i = 0;
+		for (; i < N; i++) {
+			Y[i] = 0.0;
+		}
+		// On multiplie chaque élément
+	} else {
+		register unsigned int i = 0;
+		for (; i < N; i++) {
+			Y[i] *= beta;
+		}
+	}
+
+	// Alpha, rien besoin de faire de plus
+	if (alpha == 0) {
+		return;
+	} else {
+		register unsigned int i = 0;
+		for (; i < M; i++) {
+			register unsigned int j = 0;
+			for (; j < N; j += incX) {
+				Y[j] += alpha*A[i*N+j]*X[j];
+			}
+		}
+	}
 
  }
 
