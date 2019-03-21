@@ -12,9 +12,20 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 
 	// Beta = 0 -> des 0 partout dans la matrice
 	if (beta == 0) {
-		register unsigned int i = 0;
-		for (; i < M * N; i++) {
-			C[i] = 0.0;
+		if (alpha == 0 || K == 0) {
+			register unsigned int i = 0;
+			for (; i < M * N; i++) {
+				C[i] = 0.0;
+			}
+			return;
+		} else {
+			register unsigned int i = 0;
+			for (; i < M; i++) {
+				register unsigned int j = 0;
+				for (; j < N; j++) {
+					C[i * N + j] = (mncblas_sdot(K * N, &(A[i * K]), 1, &(B[j]), N) * alpha);
+				}
+			}
 		}
 		// On multiplie chaque élément
 	} else {
@@ -47,9 +58,20 @@ void mncblas_dgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 
 	// Beta = 0 -> des 0 partout dans la matrice
 	if (beta == 0) {
-		register unsigned int i = 0;
-		for (; i < M * N; i++) {
-			C[i] = 0.0;
+		if (alpha == 0 || K == 0) {
+			register unsigned int i = 0;
+			for (; i < M * N; i++) {
+				C[i] = 0.0;
+			}
+			return;
+		} else {
+			register unsigned int i = 0;
+			for (; i < M; i++) {
+				register unsigned int j = 0;
+				for (; j < N; j++) {
+					C[i * N + j] = (mncblas_ddot(K * N, &(A[i * K]), 1, &(B[j]), N) * alpha);
+				}
+			}
 		}
 		// On multiplie chaque élément
 	} else {
@@ -91,11 +113,24 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 		return;
 
 	// Beta = 0 -> des 0 partout dans la matrice
-	if (beta == 0) {
-		register unsigned int i = 0;
-		for (; i < M * N; i++) {
-			C_cast[i].imaginary = 0.0;
-			C_cast[i].real = 0.0;
+	if (beta_cast.real == 0 && beta_cast.imaginary == 0) {
+		if ((alpha_cast.real == 0 && alpha_cast.imaginary == 0) || K == 0) {
+			register unsigned int i = 0;
+			for (; i < M * N; i++) {
+				C_cast[i].real = 0.0;
+				C_cast[i].imaginary = 0.0;
+			}
+			return;
+		} else {
+			register unsigned int i = 0;
+			for (; i < M; i++) {
+				register unsigned int j = 0;
+				for (; j < N; j++) {
+					mncblas_cdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N,
+								  &(C_cast[i * N + j]));
+					C_cast[i * N + j] = mult_complexe_float(C_cast[i * N + j], alpha_cast);
+				}
+			}
 		}
 		// On multiplie chaque élément
 	} else {
@@ -106,7 +141,7 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 	}
 
 	// Alpha ou K == 0, rien besoin de faire de plus
-	if (alpha == 0 || K == 0) {
+	if ((alpha_cast.imaginary == 0 && alpha_cast.real == 0) || K == 0) {
 		return;
 	} else {
 		register unsigned int i = 0;
@@ -114,7 +149,8 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 			register unsigned int j = 0;
 			for (; j < N; j++) {
 				mncblas_cdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N, &(C_cast[i * N + j]));
-				C_cast[i * N + j] = mult_complexe_float(C_cast[i * N + j], alpha_cast);
+				C_cast[i * N + j] = add_complexe_float(
+					C_cast[i * N + j], mult_complexe_float(C_cast[i * N + j], alpha_cast));
 			}
 		}
 	}
@@ -138,11 +174,24 @@ void mncblas_zgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 		return;
 
 	// Beta = 0 -> des 0 partout dans la matrice
-	if (beta == 0) {
-		register unsigned int i = 0;
-		for (; i < M * N; i++) {
-			C_cast[i].imaginary = 0.0;
-			C_cast[i].real = 0.0;
+	if (beta_cast.real == 0 && beta_cast.imaginary == 0) {
+		if ((alpha_cast.real == 0 && alpha_cast.imaginary == 0) || K == 0) {
+			register unsigned int i = 0;
+			for (; i < M * N; i++) {
+				C_cast[i].real = 0.0;
+				C_cast[i].imaginary = 0.0;
+			}
+			return;
+		} else {
+			register unsigned int i = 0;
+			for (; i < M; i++) {
+				register unsigned int j = 0;
+				for (; j < N; j++) {
+					mncblas_zdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N,
+								  &(C_cast[i * N + j]));
+					C_cast[i * N + j] = mult_complexe_double(C_cast[i * N + j], alpha_cast);
+				}
+			}
 		}
 		// On multiplie chaque élément
 	} else {
@@ -153,15 +202,16 @@ void mncblas_zgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 	}
 
 	// Alpha ou K == 0, rien besoin de faire de plus
-	if (alpha == 0 || K == 0) {
+	if ((alpha_cast.imaginary == 0 && alpha_cast.real == 0) || K == 0) {
 		return;
 	} else {
 		register unsigned int i = 0;
 		for (; i < M; i++) {
 			register unsigned int j = 0;
 			for (; j < N; j++) {
-				mncblas_zdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N, &(C_cast[i * N + j]));
-				C_cast[i * N + j] = mult_complexe_double(C_cast[i * N + j], alpha_cast);
+				mncblas_cdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N, &(C_cast[i * N + j]));
+				C_cast[i * N + j] = add_complexe_double(
+					C_cast[i * N + j], mult_complexe_double(C_cast[i * N + j], alpha_cast));
 			}
 		}
 	}
