@@ -3,7 +3,7 @@
 
 # `copy`
 
-Pour la fonction `copy`, l'évaluation ne ce fait pas en nombre d'opérations flottantes par secondes puisqu'on fais uniquement des accès et écriture mémoire. On peut cependant calculé le nombre d'octets trasnferé par secondes. 
+Pour la fonction `copy`, l'évaluation ne ce fait pas en nombre d'opérations flottantes par secondes puisqu'on fais uniquement des accès et écriture mémoire. On peut cependant calculé le nombre d'octets transferé par secondes. 
 
 | Fonction | Go/s  |
 | :------: | :---: |
@@ -31,9 +31,6 @@ Nous avons compilé avec l'option `-O3`. Voici nos résultats en `GFLOP/S`:
 
 On constate un nombre d'opérations par secondes plus grand pour les nombres complexes. C'est expliqué par le fait que pour des matrices ou vecteurs de même taille (et donc un nombre d'accès mémoire équivalents), on fais plus d'opérations pour les nombres complexes que pour les réels, donc le temps des accès mémoire est mieux amortis.
 
-On remarque aussi que les opétations vecteurs / matrices sont plus performantes que les opérations vecteurs / vecteurs et que les opérations matrices / matrices sont plus perfomantes que les opétations vecteurs / matrices. 
-
-COMPILER AVEC 02
-
+On remarque aussi que les opétations vecteurs / matrices sont plus performantes que les opérations vecteurs / vecteurs et que les opérations matrices / matrices sont plus perfomantes que les opétations vecteurs / matrices. Encore une fois, c'est possible car on rentabilise mieux nos accès mémoire : une ligne de matrice va être ré-utiliser plusieurs fois consécutivement.  
 
 Les optis de gemm :) (précalcul avant d'entrer dans la boucle)

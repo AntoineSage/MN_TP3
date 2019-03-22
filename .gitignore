@@ -23,3 +23,11 @@ perf_copy_dyn
 test_gemm
 perf_gemm
 perf_gemm_dyn
+perf_axpy
+perf_axpy_dyn
+perf_copy
+perf_copy_dyn
+test_copy
+test_dot
+test_gemv
+test_swap
