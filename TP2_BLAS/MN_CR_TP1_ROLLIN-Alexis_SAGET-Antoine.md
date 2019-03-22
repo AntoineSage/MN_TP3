@@ -52,18 +52,20 @@ Pour la fonction `gemm` nous avons choisi de ré-utiliser `dot`. On a donc deux 
 
 # Tests
 
-Nous avons fait de multiples tests pour vérifier le bon fonctionnement de chacune de nos fonctions. Ils sont localisés dans le dossier `tests/`. Il est possible de les compiler avec `make` et d'exécuter tous les tests avec `make tests`.
+Nous avons fait de multiples tests pour vérifier le bon fonctionnement de nos fonctions. Ils sont localisés dans le dossier `tests/`. Il est possible de les compiler avec `make` et d'exécuter tous les tests avec `make tests`.
 
 # Etude de perfomances
 
-Nous avons compilé avec l'option `-O3`. Pour chaque fonction testée nous faisons la moyenne sur $200$ répétitions du même calcul. Il est possible de lancer tous les tests de perfomance grâce à la commande `make perfs` dans le dossier `perf/` .Voici nos résultats en `GFLOP/S`:
+Nous avons compilé avec l'option `-O3`. Pour chaque fonction testée nous faisons la moyenne sur $1000$ répétitions du même calcul. Voici nos résultats en `GFLOP/S`:
 
 |      Type       | axpy  |  dot  | gemv  | gemm  |
 | :-------------: | :---: | :---: | :---: | :---: |
-|      float      | 0.175 | 0.177 | 0.272 | 1.060 |
-|     double      | 0.195 | 0.143 | 0.258 | 0.429 |
-|    complexe     | 1.152 | 1.432 | 1.028 | 2.926 |
-| complexe double | 1.718 | 1.787 | 1.421 | 2.567 |
+|      float      | 0.264 | 0.234 | 0.355 | 0.604 |
+|     double      | 0.315 | 0.109 | 0.225 | 0.572 |
+|    complexe     | 0.732 | 1.556 | 0.899 | 2.529 |
+| complexe double | 0.647 | 1.180 | 1.714 | 2.314 |
+
+\pagebreak
 
 On constate un nombre d'opérations par secondes plus grand pour les nombres complexes. C'est expliqué par le fait que pour des matrices ou vecteurs de même taille (et donc un nombre d'accès mémoire équivalents), on fait plus d'opérations pour les nombres complexes que pour les réels, donc le temps des accès mémoire est mieux amorti.
 

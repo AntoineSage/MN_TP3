@@ -1,5 +1,5 @@
-#define VECSIZE 256
-#define NB_FOIS 200
+#define VECSIZE 512
+#define NB_FOIS 1000
 
 #include <complexe.h>
 

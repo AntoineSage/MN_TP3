@@ -20,10 +20,9 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 		} else {
 			register unsigned int i = 0;
 			for (; i < M; i++) {
-				float tmp = A[i * K] * alpha;
 				register unsigned int j = 0;
 				for (; j < N; j++) {
-					C[i * N + j] = mncblas_sdot(K * N, &(tmp), 1, &(B[j]), N);
+					C[i * N + j] = (mncblas_sdot(K * N, &(A[i * K]), 1, &(B[j]), N) * alpha);
 				}
 			}
 		}
@@ -41,11 +40,11 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 	} else {
 		register unsigned int i = 0;
 		for (; i < M; i++) {
-			register const float A_i = A[i * K] * alpha;
+			register const float *A_i = &(A[i * K]);
 
 			register unsigned int j = 0;
 			for (; j < N; j++) {
-				C[i * N + j] += mncblas_sdot(K * N, &A_i, 1, &(B[j]), N);
+				C[i * N + j] += (mncblas_sdot(K * N, A_i, 1, &(B[j]), N) * alpha);
 			}
 		}
 	}
