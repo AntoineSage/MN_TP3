@@ -4,11 +4,7 @@ LIB_DIR=../lib
 
 LIBST=-lmnblas -lm
 
-<<<<<<< HEAD
-OPTIONS_COMPIL=-Wall -g -fPIC -I$(INC_DIR)
-=======
 OPTIONS_COMPIL=-g -Wall -fPIC -I$(INC_DIR)
->>>>>>> 418e8068024b2e0a4da77332cb0354c073da4764
 
 OPTIONS_LINK_STATIC=-L$(LIB_DIR) $(LIBST)  
 

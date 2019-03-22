@@ -13,4 +13,9 @@ void vector_init_d(vdouble V, double x);
 void vector_init_c(vcomplex V, complexe_float_t x);
 void vector_init_z(vcomplexd V, complexe_double_t x);
 
+void mat_init(vfloat V, float x);
+void mat_init_d(vdouble V, double x);
+void mat_init_c(vcomplex V, complexe_float_t x);
+void mat_init_z(vcomplexd V, complexe_double_t x);
+
 void vector_print(vfloat V);

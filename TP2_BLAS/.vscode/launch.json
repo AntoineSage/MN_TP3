@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/tests/test_axpy",
+            "program": "${workspaceFolder}/perf/perf_gemv",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
