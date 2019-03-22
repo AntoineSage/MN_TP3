@@ -60,10 +60,10 @@ Nous avons compilé avec l'option `-O3`. Pour chaque fonction testée nous faiso
 
 |      Type       | axpy  |  dot  | gemv  | gemm  |
 | :-------------: | :---: | :---: | :---: | :---: |
-|      float      | 0.175 | 0.177 | 0.272 | 1.060 |
-|     double      | 0.195 | 0.143 | 0.258 | 0.429 |
-|    complexe     | 1.152 | 1.432 | 1.028 | 2.926 |
-| complexe double | 1.718 | 1.787 | 1.421 | 2.567 |
+|      float      | 0.252 | 0.233 | 0.272 | 1.001 |
+|     double      | 0.210 | 0.197 | 0.258 | 0.439 |
+|    complexe     | 0.706 | 1.517 | 1.028 | 3.022 |
+| complexe double | 1.167 | 1.649 | 1.421 | 2.272 |
 
 On constate un nombre d'opérations par secondes plus grand pour les nombres complexes. C'est expliqué par le fait que pour des matrices ou vecteurs de même taille (et donc un nombre d'accès mémoire équivalents), on fait plus d'opérations pour les nombres complexes que pour les réels, donc le temps des accès mémoire est mieux amorti.
 
