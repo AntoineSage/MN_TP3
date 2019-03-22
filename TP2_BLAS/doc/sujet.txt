@@ -64,8 +64,8 @@ https://software.intel.com/en-us/mkl-developer-reference-c-blas-routines
 swap V
 copy V 
 dot V
-axpy V
-asum V
+axpy X
+asum X
 iamin V
 iamax V
 nrm2 V

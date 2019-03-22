@@ -2,7 +2,6 @@
 #include <mnblas.h>
 
 // IGNORER layout, TransA, TransB, lda, ldb, ldc
-
 void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRANSPOSE TransB,
 				   const int M, const int N, const int K, const float alpha, const float *A,
 				   const int lda, const float *B, const int ldb, const float beta, float *C,
@@ -41,9 +40,11 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 	} else {
 		register unsigned int i = 0;
 		for (; i < M; i++) {
+			register const float *A_i = &(A[i * K]);
+
 			register unsigned int j = 0;
 			for (; j < N; j++) {
-				C[i * N + j] += (mncblas_sdot(K * N, &(A[i * K]), 1, &(B[j]), N) * alpha);
+				C[i * N + j] += (mncblas_sdot(K * N, A_i, 1, &(B[j]), N) * alpha);
 			}
 		}
 	}
@@ -148,9 +149,10 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 		for (; i < M; i++) {
 			register unsigned int j = 0;
 			for (; j < N; j++) {
-				mncblas_cdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N, &(C_cast[i * N + j]));
-				C_cast[i * N + j] = add_complexe_float(
-					C_cast[i * N + j], mult_complexe_float(C_cast[i * N + j], alpha_cast));
+				complexe_float_t tmp;
+				mncblas_cdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N, &(tmp));
+				C_cast[i * N + j] =
+					add_complexe_float(C_cast[i * N + j], mult_complexe_float(tmp, alpha_cast));
 			}
 		}
 	}
@@ -209,7 +211,7 @@ void mncblas_zgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 		for (; i < M; i++) {
 			register unsigned int j = 0;
 			for (; j < N; j++) {
-				mncblas_cdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N, &(C_cast[i * N + j]));
+				mncblas_zdotu(K * N, &(A_cast[i * K]), 1, &(B_cast[j]), N, &(C_cast[i * N + j]));
 				C_cast[i * N + j] = add_complexe_double(
 					C_cast[i * N + j], mult_complexe_double(C_cast[i * N + j], alpha_cast));
 			}
