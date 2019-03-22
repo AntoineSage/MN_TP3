@@ -16,7 +16,7 @@ Pour la fonction `copy`, l'évaluation ne se fait pas en nombre d'opérations fl
 
 Au vu des résultats nous pouvons émettre l'hypothèse suivante : pour les structures de données que nous avons utilisé, les temps d'accès mémoire sont les mêmes quelque soit la taille de la structure. Ainsi, pour deux structures différentes on aura un temps d'exécution équivalent mais plus d'octets transferés pour la structure la plus grosse. Nous avons d'ailleurs ajouté une colonne `taille de la structure` au tableau pour se rendre compte que pour une structure deux fois plus grosse, on a un transfert deux fois plus rapide.
 
-> Nous n'avons pas fait de tests plus approfondis mais nous supposons que cette augmentation est limitée et que pour une structure trop grande on observera un ralentissement. Sinon cela impliquerait une vitesse de transfert mémoire potentiellement infinie.
+> Nous n'avons pas fait de tests plus approfondis mais nous supposons que cette augmentation est limitée et que pour une structure trop grande on observera une stagnation de la vitesse de transfert. Sinon cela impliquerait une vitesse de transfert mémoire potentiellement infinie.
 
 Les résultats précédents ont été obtenus sans l'option de compilation `-O3`. Les résultats sont différents avec cette option : 
 

@@ -14,27 +14,28 @@ void perf_float() {
 	float mean = 0.0;
 
 	for (int i = 0; i < NB_FOIS; i++) {
-
-		for (int j = 0; j < sqrt(VECSIZE); j++){
+		for (int j = 0; j < sqrt(VECSIZE); j++) {
 			vec1[j] = 1.0;
 		}
-				
-		for (int j = 0; j < sqrt(VECSIZE); j++){
+
+		for (int j = 0; j < sqrt(VECSIZE); j++) {
 			vec2[j] = 2.0;
 		}
 
 		vector_init(vec3, 3.0);
-		
+		vector_init(vec1, 1.0);
+		vector_init(vec2, 2.0);
+
 		start = _rdtsc();
-		mncblas_sgemv(MNCblasRowMajor, MNCblasNoTrans, floor(sqrt(VECSIZE)), floor(sqrt(VECSIZE)), 5, vec3, 
-0, vec1, 1, 3, vec2, 1);
+		mncblas_sgemv(MNCblasRowMajor, MNCblasNoTrans, floor(sqrt(VECSIZE)), floor(sqrt(VECSIZE)),
+					  5, vec3, 0, vec1, 1, 3, vec2, 1);
 		end = _rdtsc();
 		mean += end - start;
 	}
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("sgemv : ", floor(sqrt(VECSIZE))+1 + VECSIZE*3, mean);
+	calcul_flop("sgemv : ", floor(sqrt(VECSIZE)) + 1 + VECSIZE * 3, mean);
 }
 
 void perf_double() {
@@ -43,26 +44,26 @@ void perf_double() {
 	float mean = 0.0;
 
 	for (int i = 0; i < NB_FOIS; i++) {
-		for (int j = 0; j < sqrt(VECSIZE); j++){
+		for (int j = 0; j < sqrt(VECSIZE); j++) {
 			vec1[j] = 1.0;
 		}
-				
-		for (int j = 0; j < sqrt(VECSIZE); j++){
+
+		for (int j = 0; j < sqrt(VECSIZE); j++) {
 			vec2[j] = 2.0;
 		}
 
 		vector_init_d(vec3, 3.0);
 
 		start = _rdtsc();
-		mncblas_dgemv(MNCblasRowMajor, MNCblasNoTrans, floor(sqrt(VECSIZE)), floor(sqrt(VECSIZE)), 5, vec3, 
-0, vec1, 1, 3, vec2, 1);
+		mncblas_dgemv(MNCblasRowMajor, MNCblasNoTrans, floor(sqrt(VECSIZE)), floor(sqrt(VECSIZE)),
+					  5, vec3, 0, vec1, 1, 3, vec2, 1);
 		end = _rdtsc();
 		mean += end - start;
 	}
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("dgemv : ", floor(sqrt(VECSIZE))+1 + VECSIZE*3, mean);
+	calcul_flop("dgemv : ", floor(sqrt(VECSIZE)) + 1 + VECSIZE * 3, mean);
 }
 
 void perf_complexe_float() {
@@ -71,7 +72,6 @@ void perf_complexe_float() {
 	float mean = 0.0;
 
 	for (int i = 0; i < NB_FOIS; i++) {
-
 		complexe_float_t c1;
 		c1.imaginary = 1.0;
 		c1.real = 1.0;
@@ -92,26 +92,26 @@ void perf_complexe_float() {
 		beta.imaginary = 2.0;
 		beta.real = 2.0;
 
-		for (int j = 0; j < sqrt(VECSIZE); j++){
+		for (int j = 0; j < sqrt(VECSIZE); j++) {
 			vec1[j] = c1;
 		}
-				
-		for (int j = 0; j < sqrt(VECSIZE); j++){
+
+		for (int j = 0; j < sqrt(VECSIZE); j++) {
 			vec2[j] = c2;
 		}
 
 		vector_init_c(vec3, c3);
 
 		start = _rdtsc();
-		mncblas_cgemv(MNCblasRowMajor, MNCblasNoTrans,floor(sqrt(VECSIZE)), floor(sqrt(VECSIZE)), &alpha, vec3, 
-0, vec1, 1, &beta, vec2, 1);
+		mncblas_cgemv(MNCblasRowMajor, MNCblasNoTrans, floor(sqrt(VECSIZE)), floor(sqrt(VECSIZE)),
+					  &alpha, vec3, 0, vec1, 1, &beta, vec2, 1);
 		end = _rdtsc();
 		mean += end - start;
 	}
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("cgemv : ", (floor(sqrt(VECSIZE))+1)*6 + VECSIZE*14, mean);
+	calcul_flop("cgemv : ", (floor(sqrt(VECSIZE)) + 1) * 6 + VECSIZE * 14, mean);
 }
 
 void perf_complexe_double() {
@@ -120,7 +120,6 @@ void perf_complexe_double() {
 	float mean = 0.0;
 
 	for (int i = 0; i < NB_FOIS; i++) {
-
 		complexe_double_t c1;
 		c1.imaginary = 1.0;
 		c1.real = 1.0;
@@ -141,26 +140,26 @@ void perf_complexe_double() {
 		beta.imaginary = 2.0;
 		beta.real = 2.0;
 
-		for (int j = 0; j < sqrt(VECSIZE); j++){
+		for (int j = 0; j < sqrt(VECSIZE); j++) {
 			vec1[j] = c1;
 		}
-				
-		for (int j = 0; j < sqrt(VECSIZE); j++){
+
+		for (int j = 0; j < sqrt(VECSIZE); j++) {
 			vec2[j] = c2;
 		}
 
 		vector_init_z(vec3, c3);
 
 		start = _rdtsc();
-		mncblas_zgemv(MNCblasRowMajor, MNCblasNoTrans, floor(sqrt(VECSIZE)), floor(sqrt(VECSIZE)), &alpha, vec3, 
-0, vec1, 1, &beta, vec2, 1);
+		mncblas_zgemv(MNCblasRowMajor, MNCblasNoTrans, floor(sqrt(VECSIZE)), floor(sqrt(VECSIZE)),
+					  &alpha, vec3, 0, vec1, 1, &beta, vec2, 1);
 		end = _rdtsc();
 		mean += end - start;
 	}
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("cgemv : ", (floor(sqrt(VECSIZE))+1)*6 + VECSIZE*14, mean);
+	calcul_flop("cgemv : ", (floor(sqrt(VECSIZE)) + 1) * 6 + VECSIZE * 14, mean);
 }
 
 int main(int argc, char const* argv[]) {

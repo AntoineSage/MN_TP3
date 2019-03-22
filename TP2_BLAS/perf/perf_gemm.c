@@ -28,7 +28,7 @@ void perf_float() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("sgemm : ", VECSIZE * (3 + size * 2), mean);
+	calcul_flop("sgemm : ", VECSIZE * (2 + size * 2) + size, mean);
 }
 
 void perf_double() {

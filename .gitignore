@@ -31,3 +31,7 @@ test_copy
 test_dot
 test_gemv
 test_swap
+perf_axpy
+perf_axpy_dyn
+perf_gemv 
+perf_gemv_dyn 
