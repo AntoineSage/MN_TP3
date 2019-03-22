@@ -1,16 +1,33 @@
 % MN - TP n°2 : BLAS
 % Alexis Rollin - Antoine Saget
 
+Nous évoquons dans ce compte-rendu seulement les fonctions pour lesquels nous avons quelque chose de particulier à mentionner. 
+
 # `copy`
 
 Pour la fonction `copy`, l'évaluation ne ce fait pas en nombre d'opérations flottantes par secondes puisqu'on fais uniquement des accès et écriture mémoire. On peut cependant calculé le nombre d'octets transferé par secondes. 
 
+| Fonction | Go/s  | Taille de la structure associé en octets |
+| :------: | :---: | :--------------------------------------: |
+|  scopy   |  0.7  |                    4                     |
+|  dcopy   |  1.4  |                    8                     |
+|  ccopy   |  1.4  |                    8                     |
+|  zcopy   |  2.5  |                    16                    |
+
+Au vu des résultats nous pouvons émetre l'hypothèse suivante : pour les structures de données que nous avons utilisés, les temps d'accès mémoire sont les même quelque soit la taille de la structure. Ainsi, pour deux structures différentes on aura un temps d'exécution équivalent mais plus d'octets transferé pour la structure la plus grosse. Nous avons d'ailleurs ajouté une colonne `taille de la structure` au tableau pour ce rendre compte que pour une structure deux fois plus grosse, on a un transfert deux fois plus rapide.
+
+> Nous n'avons pas fais de tests plus approfondis mais nous supposons que cette augmentation est limitée et que pour une structure trop grande on observera un ralentissement. Sinon cela impliquerais une vitesse de transfert mémoire potentiellement infinie.
+
+Les résultats précédent ont été obtenu sans l'option de compilation `-O3`. Les résultats sont différents avec cette option : 
+
 | Fonction | Go/s  |
 | :------: | :---: |
-|  scopy   |  0.7  |
-|  dcopy   |  1.4  |
-|  ccopy   |  1.4  |
-|  zcopy   |  2.5  |
+|  scopy   |  3.2  |
+|  dcopy   |  6.8  |
+|  ccopy   |  5.9  |
+|  zcopy   | 10.7  |
+
+On a de bien meilleurs résultats, mais l'évolution du nombre de `Go/s` en fontction de la taille de la structure reste le globalement le même. 
 
 # `nrm2`
 
@@ -31,9 +48,13 @@ $$
 
 Pour la fonction `gemm` nous avons choisis de ré-utiliser `dot`. On a donc deux boucles imbriquées + une troisième dans l'appel de `dot`. Avant de commencer les calculs on test quelques cas particulier pour éviter les multiplications par `0` ou les ajouts de `0` qui ferais perdre du temps inutilement. 
 
+# Tests
+
+Nous avons fais de multiples tests pour vérifier le bon fonctionnement de chacune de nos fonctions. Il sont localisés dans le dossier `tests/`. Il est possible de les compiler avec `make` et d'exécuter tous les tests avec `make tests`.
+
 # Etude de perfomances
 
-Nous avons compilé avec l'option `-O3`. Voici nos résultats en `GFLOP/S`:
+Nous avons compilé avec l'option `-O3`. Pour chaque fonction testé nous faisons la moyenne sur $200$ répétitions du même calcul. Il est possible de lancer tous les tests de perfomances grâce à la commande `make perfs` dans le dossier `perf/` .Voici nos résultats en `GFLOP/S`:
 
 |      Type       | axpy  |  dot  | gemv  | gemm  |
 | :-------------: | :---: | :---: | :---: | :---: |

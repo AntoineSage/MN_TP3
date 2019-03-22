@@ -20,6 +20,9 @@ SHARE = flop.o perf_utils.o
 
 all: $(PERF) $(PERFDYN)
 
+perf: $(PERF)
+	for file in $(PERF); do ./$$file; echo "\n"; done
+
 perf_dot_dyn: perf_dot.o 
 perf_copy_dyn: perf_copy.o 
 perf_gemm_dyn: perf_gemm.o

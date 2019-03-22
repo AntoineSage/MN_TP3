@@ -12,6 +12,10 @@ EXECS=test_axpy test_copy test_dot test_iamin_iamax test_nrm2 test_swap test_gem
 
 all: $(EXECS)
 
+tests: $(EXECS)
+	for file in $(EXECS);do ./$$file; done
+
+
 $(EXECS): %: %.o $(LIB_DIR)/libmnblas.a
 	gcc -o $@ $< $(OPTIONS_LINK_STATIC) -g
 

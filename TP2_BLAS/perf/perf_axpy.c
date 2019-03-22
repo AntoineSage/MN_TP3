@@ -24,7 +24,7 @@ void perf_float() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("sdot : ", 2 * VECSIZE, mean);
+	calcul_flop("saxpy : ", 2 * VECSIZE, mean);
 }
 
 void perf_double() {
@@ -44,7 +44,7 @@ void perf_double() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("ddot : ", 2 * VECSIZE, mean);
+	calcul_flop("daxpy : ", 2 * VECSIZE, mean);
 }
 
 void perf_complex() {
@@ -76,7 +76,7 @@ void perf_complex() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("cdotu : ", 8 * VECSIZE, mean);
+	calcul_flop("caxpy : ", 8 * VECSIZE, mean);
 }
 
 void perf_complex_double() {
@@ -101,14 +101,14 @@ void perf_complex_double() {
 		vector_init_z(vec2, c2);
 
 		start = _rdtsc();
-		mncblas_caxpy(VECSIZE, c3, vec1, 1, vec2, 1);
+		mncblas_zaxpy(VECSIZE, c3, vec1, 1, vec2, 1);
 		end = _rdtsc();
 		mean += end - start;
 	}
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("cdotu : ", 8 * VECSIZE, mean);
+	calcul_flop("zaxpy : ", 8 * VECSIZE, mean);
 }
 
 int main(int argc, char **argv) {
