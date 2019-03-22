@@ -28,7 +28,7 @@ void perf_float() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("sdot : ", VECSIZE * (3 + size * 2), mean);
+	calcul_flop("sgemm : ", VECSIZE * (3 + size * 2), mean);
 }
 
 void perf_double() {
@@ -51,7 +51,7 @@ void perf_double() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("ddot : ", VECSIZE * (3 + size * 2), mean);
+	calcul_flop("dgemm : ", VECSIZE * (3 + size * 2), mean);
 }
 
 void perf_complex() {
@@ -95,7 +95,7 @@ void perf_complex() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("cdotu : ", VECSIZE * (14 + size * 8), mean);
+	calcul_flop("cgemm : ", VECSIZE * (14 + size * 8), mean);
 }
 
 void perf_complex_double() {
@@ -139,7 +139,7 @@ void perf_complex_double() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_flop("cdotu : ", VECSIZE * (14 + size * 8), mean);
+	calcul_flop("zgemm : ", VECSIZE * (14 + size * 8), mean);
 }
 
 int main(int argc, char **argv) {
