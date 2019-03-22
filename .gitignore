@@ -21,3 +21,5 @@ perf_dot_dyn
 perf_copy
 perf_copy_dyn
 test_gemm
+perf_gemm
+perf_gemm_dyn
