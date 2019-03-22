@@ -42,7 +42,7 @@ void perf_double() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_mo("scopy : ", VECSIZE, sizeof(double), mean);
+	calcul_mo("dcopy : ", VECSIZE, sizeof(double), mean);
 }
 
 void perf_complex() {
@@ -64,7 +64,7 @@ void perf_complex() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_mo("scopy : ", VECSIZE, sizeof(complexe_float_t), mean);
+	calcul_mo("ccopy : ", VECSIZE, sizeof(complexe_float_t), mean);
 }
 
 void perf_complex_double() {
@@ -86,7 +86,7 @@ void perf_complex_double() {
 	mean /= NB_FOIS;
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
-	calcul_mo("scopy : ", VECSIZE, sizeof(complexe_double_t), mean);
+	calcul_mo("zcopy : ", VECSIZE, sizeof(complexe_double_t), mean);
 }
 
 int main(int argc, char **argv) {

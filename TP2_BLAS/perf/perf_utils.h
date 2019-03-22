@@ -1,4 +1,4 @@
-#define VECSIZE 8192
+#define VECSIZE 4096
 #define NB_FOIS 200
 
 #include <complexe.h>
