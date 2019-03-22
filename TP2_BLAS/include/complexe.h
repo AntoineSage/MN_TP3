@@ -106,4 +106,19 @@ static inline double module_complexe_squared_double(const complexe_double_t a) {
 	return a.real * a.real + a.imaginary * a.imaginary;
 }
 
+static inline int iszero_float(const complexe_float_t a) {
+	return a.real == 0 && a.imaginary == 0;
+}
+
+static inline int iszero_double(const complexe_double_t a) {
+	return a.real == 0 && a.imaginary == 0;
+}
+
+static inline int isone_float(const complexe_float_t a) {
+	return a.real == 1 && a.imaginary == 0;
+}
+
+static inline int isone_double(const complexe_double_t a) {
+	return a.real == 1 && a.imaginary == 0;
+}
 #endif

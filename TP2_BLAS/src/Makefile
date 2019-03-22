@@ -6,11 +6,11 @@ all: libmnblas.a libmnblasdyn.so
 LIB_DIR=../lib
 INC_DIR=../include
 
-OPTIONS=-Wall -fPIC $(OPTIM) -I$(INC_DIR) -O2
+OPTIONS=-Wall -g -fPIC $(OPTIM) -I$(INC_DIR) -O2
 
 CC= gcc
 
-OBJ= copy.o swap.o dot.o nrm2.o complexe.o iamin.o iamax.o asum.o axpy.o gemm.o
+OBJ= copy.o swap.o dot.o nrm2.o complexe.o iamin.o iamax.o asum.o axpy.o gemm.o gemv.o
 
 # Bibliothèque statique
 

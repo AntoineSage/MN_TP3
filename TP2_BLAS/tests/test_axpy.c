@@ -18,8 +18,8 @@ int main(int argc, char const *argv[]) {
 
 	printf("OK REEL\n");
 
-	complexe_double_t ac[2];
-	complexe_double_t bc[2];
+	complexe_float_t ac[2];
+	complexe_float_t bc[2];
 
 	ac[0].real=1.0;
 	ac[0].imaginary=2.0;
@@ -31,17 +31,15 @@ int main(int argc, char const *argv[]) {
 	bc[1].real=4.0;
 	bc[1].imaginary=4.0;
 
-	complexe_double_t cc[1];
-	cc[0].real=2.0;
-	cc[0].imaginary=2.0;
+	complexe_float_t cc;
+	cc.real=2.0;
+	cc.imaginary=2.0;
 
-	mncblas_caxpy(2, cc, ac, 1, bc, 1);
-
-	printf("ffff: %f\n",bc[0].real);
+	mncblas_caxpy(2, &cc, ac, 1, bc, 1);
 
 	assert(bc[0].real==0.0);
-	assert(bc[0].imaginary==6.0);
+	assert(bc[0].imaginary==8.0);
 
-	
+	printf("OK COMPLEXES\n");
 
 }
