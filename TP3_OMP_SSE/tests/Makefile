@@ -4,9 +4,9 @@ LIB_DIR=../lib
 
 LIBST=-lmnblas -lm
 
-OPTIONS_COMPIL=-g -Wall -fPIC -I$(INC_DIR)
+OPTIONS_COMPIL=-g -Wall -fPIC -I$(INC_DIR) -fopenmp
 
-OPTIONS_LINK_STATIC=-L$(LIB_DIR) $(LIBST)  
+OPTIONS_LINK_STATIC=-L$(LIB_DIR) $(LIBST) -fopenmp 
 
 EXECS=test_axpy test_copy test_iamin_iamax test_nrm2 test_swap test_gemm test_gemv
 

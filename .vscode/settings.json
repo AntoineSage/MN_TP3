@@ -5,6 +5,7 @@
         "mnblas.h": "c",
         "complexe.h": "c",
         "stdio.h": "c",
-        "perf_utils.h": "c"
+        "perf_utils.h": "c",
+        "omp.h": "c"
     }
 }

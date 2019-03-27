@@ -8,8 +8,8 @@ LIBDYN=-lmnblasdyn -lm
 
 OPTIONS_COMPIL=-Wall -fPIC -I$(INC_DIR) -O3 -fopenmp 
 
-OPTIONS_LINK_STATIC  =   -L$(LIB_DIR) $(LIBST)  
-OPTIONS_LINK_DYN  = -L$(LIB_DIR) $(LIBDYN) 
+OPTIONS_LINK_STATIC  =   -L$(LIB_DIR) $(LIBST)  -fopenmp
+OPTIONS_LINK_DYN  = -L$(LIB_DIR) $(LIBDYN) -fopenmp
 
 CC=gcc
 
