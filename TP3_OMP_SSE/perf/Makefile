@@ -6,7 +6,7 @@ LIB_DIR=../lib
 LIBST=-lmnblas -lm
 LIBDYN=-lmnblasdyn -lm
 
-OPTIONS_COMPIL=-Wall -fPIC -I$(INC_DIR) -O3
+OPTIONS_COMPIL=-Wall -fPIC -I$(INC_DIR) -O3 -fopenmp 
 
 OPTIONS_LINK_STATIC  =   -L$(LIB_DIR) $(LIBST)  
 OPTIONS_LINK_DYN  = -L$(LIB_DIR) $(LIBDYN) 

@@ -5,6 +5,7 @@ void mncblas_scopy(const int N, const float *X, const int incX, float *Y, const 
 	register unsigned int i = 0;
 	register unsigned int j = 0;
 
+#pragma omp parallel for
 	for (; ((i < N) && (j < N)); i += incX, j += incY) {
 		Y[j] = X[i];
 	}
