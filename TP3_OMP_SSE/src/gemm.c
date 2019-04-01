@@ -12,14 +12,16 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 	// Beta = 0 -> des 0 partout dans la matrice
 	if (beta == 0) {
 		if (alpha == 0 || K == 0) {
-			register unsigned int i = 0;
-			for (; i < M * N; i++) {
+			register unsigned int i;
+#pragma omp parallel for schedule(static)
+			for (i = 0; i < M * N; i++) {
 				C[i] = 0.0;
 			}
 			return;
 		} else {
-			register unsigned int i = 0;
-			for (; i < M; i++) {
+			register unsigned int i;
+#pragma omp parallel for schedule(static)
+			for (i = 0; i < M; i++) {
 				register unsigned int j = 0;
 				for (; j < N; j++) {
 					C[i * N + j] = (mncblas_sdot(K * N, &(A[i * K]), 1, &(B[j]), N) * alpha);
@@ -28,8 +30,9 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 		}
 		// On multiplie chaque élément
 	} else {
-		register unsigned int i = 0;
-		for (; i < M * N; i++) {
+		register unsigned int i;
+#pragma omp parallel for schedule(static)
+		for (i = 0; i < M * N; i++) {
 			C[i] *= beta;
 		}
 	}
@@ -38,8 +41,9 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA, MNCBLAS_TRAN
 	if (alpha == 0 || K == 0) {
 		return;
 	} else {
-		register unsigned int i = 0;
-		for (; i < M; i++) {
+		register unsigned int i;
+#pragma omp parallel for schedule(static)
+		for (i = 0; i < M; i++) {
 			register const float *A_i = &(A[i * K]);
 
 			register unsigned int j = 0;

@@ -21,10 +21,10 @@ int main(int argc, char const *argv[]) {
 	double ad[5] = {1.0, 2.0, 3.0, 4.0, 5.0};
 	double bd[5];
 
-	mncblas_dcopy(5, ad, 2, bd, 1);
+	mncblas_dcopy(5, ad, 1, bd, 1);
 
-	for (i = 0; i < 2; i++) {
-		assert(ad[i * 2] == bd[i]);
+	for (i = 0; i < 5; i++) {
+		assert(ad[i] == bd[i]);
 	}
 
 	// ---- COMPLEXE FLOAT ----
@@ -52,10 +52,10 @@ int main(int argc, char const *argv[]) {
 		adc[i].real = i;
 	}
 
-	mncblas_zcopy(5, adc, 1, bdc, 2);
+	mncblas_zcopy(5, adc, 1, bdc, 1);
 
-	for (i = 0; i < 2; i++) {
-		assert(complexe_equal_double(adc[i], bdc[i * 2]));
+	for (i = 0; i < 5; i++) {
+		assert(complexe_equal_double(adc[i], bdc[i]));
 	}
 
 	printf("OK\n");
