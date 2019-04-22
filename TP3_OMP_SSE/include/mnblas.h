@@ -25,11 +25,11 @@ void mncblas_scopy_V(const int N, const float *X, const int incX, float *Y, cons
 void mncblas_dcopy(const int N, const double *X, const int incX, double *Y, const int incY);
 void mncblas_dcopy_V(const int N, const double *X, const int incX, double *Y, const int incY);
 
-
 void mncblas_ccopy(const int N, const void *X, const int incX, void *Y, const int incY);
-
+void mncblas_ccopy_V(const int N, const void *X, const int incX, void *Y, const int incY);
 
 void mncblas_zcopy(const int N, const void *X, const int incX, void *Y, const int incY);
+void mncblas_zcopy_V(const int N, const void *X, const int incX, void *Y, const int incY);
 
 
 /*
@@ -60,10 +60,15 @@ void mncblas_zswap(const int N, void *X, const int incX, void *Y, const int incY
 */
 
 float mncblas_sdot(const int N, const float *X, const int incX, const float *Y, const int incY);
+float mncblas_sdot_V(const int N, const float *X, const int incX, const float *Y, const int incY);
 
 double mncblas_ddot(const int N, const double *X, const int incX, const double *Y, const int incY);
+double mncblas_ddot_V(const int N, const double *X, const int incX, const double *Y,
+					  const int incY);
 
 void mncblas_cdotu(const int N, const void *X, const int incX, const void *Y, const int incY,
+				   void *dotu);
+void mncblas_cdotu_V(const int N, const void *X, const int incX, const void *Y, const int incY,
 				   void *dotu);
 
 void mncblas_cdotc(const int N, const void *X, const int incX, const void *Y, const int incY,

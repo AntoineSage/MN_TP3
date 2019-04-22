@@ -27,6 +27,26 @@ void perf_float() {
 	calcul_flop("sdot : ", 2 * VECSIZE, mean);
 }
 
+void perf_float_V() {
+	vfloat vec1, vec2;
+	unsigned long long start, end;
+	float mean = 0.0;
+
+	for (int i = 0; i < NB_FOIS; i++) {
+		vector_init(vec1, 1.0);
+		vector_init(vec2, 2.0);
+
+		start = _rdtsc();
+		mncblas_sdot_V(VECSIZE, vec1, 1, vec2, 1);
+		end = _rdtsc();
+		mean += end - start;
+	}
+	mean /= NB_FOIS;
+
+	printf("Moyenne sur %d répétitions : ", NB_FOIS);
+	calcul_flop("sdot_V : ", 2 * VECSIZE, mean);
+}
+
 void perf_double() {
 	vdouble vec1, vec2;
 	unsigned long long start, end;
@@ -45,6 +65,26 @@ void perf_double() {
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
 	calcul_flop("ddot : ", 2 * VECSIZE, mean);
+}
+
+void perf_double_V() {
+	vdouble vec1, vec2;
+	unsigned long long start, end;
+	float mean = 0.0;
+
+	for (int i = 0; i < NB_FOIS; i++) {
+		vector_init_d(vec1, 1.0);
+		vector_init_d(vec2, 2.0);
+
+		start = _rdtsc();
+		mncblas_ddot_V(VECSIZE, vec1, 1, vec2, 1);
+		end = _rdtsc();
+		mean += end - start;
+	}
+	mean /= NB_FOIS;
+
+	printf("Moyenne sur %d répétitions : ", NB_FOIS);
+	calcul_flop("ddot_V : ", 2 * VECSIZE, mean);
 }
 
 void perf_complex() {
@@ -77,6 +117,38 @@ void perf_complex() {
 
 	printf("Moyenne sur %d répétitions : ", NB_FOIS);
 	calcul_flop("cdotu : ", 8 * VECSIZE, mean);
+}
+
+void perf_complex_V() {
+	vcomplex vec1, vec2;
+	unsigned long long start, end;
+	float mean = 0.0;
+
+	complexe_float_t c1;
+	c1.imaginary = 1.0;
+	c1.real = 2.0;
+
+	complexe_float_t c2;
+	c2.imaginary = 1.0;
+	c2.real = 2.0;
+
+	for (int i = 0; i < NB_FOIS; i++) {
+		complexe_float_t c3;
+		c3.imaginary = 0.0;
+		c3.real = 0.0;
+
+		vector_init_c(vec1, c1);
+		vector_init_c(vec2, c2);
+
+		start = _rdtsc();
+		mncblas_cdotu_V(VECSIZE, vec1, 1, vec2, 1, &c3);
+		end = _rdtsc();
+		mean += end - start;
+	}
+	mean /= NB_FOIS;
+
+	printf("Moyenne sur %d répétitions : ", NB_FOIS);
+	calcul_flop("cdotu_V : ", 8 * VECSIZE, mean);
 }
 
 void perf_complex_double() {
@@ -113,7 +185,10 @@ void perf_complex_double() {
 
 int main(int argc, char **argv) {
 	perf_float();
+	perf_float_V();
 	perf_double();
+	perf_double_V();
 	perf_complex();
+	perf_complex_V();
 	perf_complex_double();
 }

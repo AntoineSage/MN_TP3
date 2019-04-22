@@ -1,72 +1,40 @@
 % MN - TP n°2 : BLAS
 % Alexis Rollin - Antoine Saget
 
-Nous évoquons dans ce compte-rendu seulement les fonctions pour lesquelles nous avons quelque chose de particulier à mentionner. 
+Pour la pluspart des fonctions utilisant `incX` et `incY` nous avons considéré `incX = incY` pour la parralélisation et `incX = incY = 1` pour la vectorisation.
+
+Le processeur utilisé est un `Intel(R) Core(TM) i5-6200U CPU` à `2.30GHz` composé de `2` coeurs et `4` threads.
 
 # `copy`
 
-Pour la fonction `copy`, l'évaluation ne se fait pas en nombre d'opérations flottantes par seconde puisqu'on fait uniquement des accès et écriture mémoire. On peut cependant calculer le nombre d'octets transferés par seconde. 
+La fonction de copie est tellement rapide (même sur de grands vecteurs) qu'il est difficile d'observer des résultats constant entre les différentes exécutions même en faisant la moyenne de 1000 exécutions.
 
-| Fonction | Go/s  | Taille de la structure associé en octets |
-| :------: | :---: | :--------------------------------------: |
-|  scopy   |  0.7  |                    4                     |
-|  dcopy   |  1.4  |                    8                     |
-|  ccopy   |  1.4  |                    8                     |
-|  zcopy   |  2.5  |                    16                    |
+Nous avons malgré tout pu faire des observations intéressantes.  
+Nombre de `Go` transferé par seconde pour des vecteurs de taille `4096` :
 
-Au vu des résultats nous pouvons émettre l'hypothèse suivante : pour les structures de données que nous avons utilisé, les temps d'accès mémoire sont les mêmes quelque soit la taille de la structure. Ainsi, pour deux structures différentes on aura un temps d'exécution équivalent mais plus d'octets transferés pour la structure la plus grosse. Nous avons d'ailleurs ajouté une colonne `taille de la structure` au tableau pour se rendre compte que pour une structure deux fois plus grosse, on a un transfert deux fois plus rapide.
+|       | Pas de parralélisation | 1 thread | 2 thread | 4 thread |
+| :---: | :--------------------: | :------: | :------: | :------: |
+| scopy |          1.05          |   0.81   |   3.28   |   0.32   |
+| dcopy |          6.19          |   4.02   |   8.37   |   1.09   |
+| ccopy |          7.80          |   6.15   |   9.43   |   1.17   |
+| zcopy |         16.56          |   14.3   |  15.19   |  11.81   |
 
-> Nous n'avons pas fait de tests plus approfondis mais nous supposons que cette augmentation est limitée et que pour une structure trop grande on observera une stagnation de la vitesse de transfert. Sinon cela impliquerait une vitesse de transfert mémoire potentiellement infinie.
+On peut constater une baisse entre pas de parralélisation et la parralélisation a 1 thread, cela est expliqué par le coût de la parralélisation ajouté par OpenMP, ce coût seras amortis dès que l'on utilise plus d'un thread et que l'on parrallélise vraiment. On ne dépasse que légèrement les performances sans parralélisation en utilisant 2 threads, et a 4 threads, les performances chutent...
 
-Les résultats précédents ont été obtenus sans l'option de compilation `-O3`. Les résultats sont différents avec cette option : 
+On s'intéresse maintenant à la vectorisation. Pour cette fonction nous avons utilisé les instructions `AVX` sur 256 octets. Pour pouvoir facilement comparer la vectorisation avec le reste, chaque fonction BLAS `f()` a une fonction vectorisé `f_V()` associée.  
 
-| Fonction | Go/s  |
-| :------: | :---: |
-|  scopy   |  3.2  |
-|  dcopy   |  6.8  |
-|  ccopy   |  5.9  |
-|  zcopy   | 10.7  |
+Pour la vectorisation des fonctions complexes, nous utilisons une structure contenant le nombre réel et le nombre imaginaire. Les fonctions AVX intrinsic d'Intel ne fonctionne pas avec des structures de données. Mais, en mémoire, un tableau de complexe flottants de taille 8 ce comporte exactement comme un tableau de flottants de taille 16, c'est en sachant cela que nous avons pu utilisé les fonctions AVX pour notre strucuture.
 
-On a de bien meilleurs résultats, mais l'évolution du nombre de `Go/s` en fonction de la taille de la structure reste le globalement le même. 
+Nombre de `Go` transferé par seconde pour des vecteurs de taille `4096` :
 
-# `nrm2`
+|       | Pas de vectorisation | Vectorisation | Vectorisation et parralélisation 2 threads |
+| :---: | :------------------: | :-----------: | :----------------------------------------: |
+| scopy |         1.05         |     6.07      |                    3.01                    |
+| dcopy |         6.19         |     12.60     |                    9.38                    |
+| ccopy |         7.80         |     11.89     |                   10.95                    |
+| zcopy |        16.56         |     18.14     |                   10.77                    |
 
-Pour la fonction `nrm2` avec les complexes, la formule est la suivante pour un vecteur $v$ taille 2 :
-$$
-nrm2 = \sqrt{\sqrt{v_1.réel^2 + v_1.imaginaire^2}^2 + \sqrt{v_2.réel^2 + v_2.imaginaire^2}^2}
-$$
+On observe une nette amélioration avec l'ajout de vectorisation. Cependant les performances lorsqu'on combine vectorisation et parralélisation sont moins bonnes, c'est un résultat que nous n'avons pas su expliqué.
 
-C'est une perte de temps de caluler le carré d'une racine carré. Nous avons donc simplifié le calcul de la manière suivante :
+# `dot`
 
-$$
-nrm2 = \sqrt{v_1.réel^2 + v_1.imaginaire^2 + v_2.réel^2 + v_2.imaginaire^2}
-$$
-
-# `gemv`
-
-La fonction gemv est divisée en plusieurs parties selon les valeurs des différens coefficients afin d'optimiser les calculs: par exemple quand alpha ou beta sont nuls, on peut très facilement gagner en efficacité en choisissant de traiter ces cas à part. Le principe général de multiplication d'un matrice M*N par un vecteur colonne de taille N est le suivant: on commence par multiplier un à un les éléments du vecteur Y par le coefficient beta. Puis pour chaque ligne, on effectue le produit scalaire de cette ligne avec le vecteur X multiplié par alpha. Le résultat de chacun de ces produits scalaires est ajouté au bon indice dans le vecteur Y.
-
-# `gemm`
-
-Pour la fonction `gemm` nous avons choisi de ré-utiliser `dot`. On a donc deux boucles imbriquées + une troisième dans l'appel de `dot`. Avant de commencer les calculs on teste quelques cas particuliers pour éviter les multiplications par `0` ou les ajouts de `0` qui feraient perdre du temps inutilement. 
-
-# Tests
-
-Nous avons fait de multiples tests pour vérifier le bon fonctionnement de nos fonctions. Ils sont localisés dans le dossier `tests/`. Il est possible de les compiler avec `make` et d'exécuter tous les tests avec `make tests`.
-
-# Etude de perfomances
-
-Nous avons compilé avec l'option `-O3`. Pour chaque fonction testée nous faisons la moyenne sur $1000$ répétitions du même calcul. Voici nos résultats en `GFLOP/S`:
-
-|      Type       | axpy  |  dot  | gemv  | gemm  |
-| :-------------: | :---: | :---: | :---: | :---: |
-|      float      | 0.264 | 0.234 | 0.355 | 0.604 |
-|     double      | 0.315 | 0.109 | 0.225 | 0.572 |
-|    complexe     | 0.732 | 1.556 | 0.899 | 2.529 |
-| complexe double | 0.647 | 1.180 | 1.714 | 2.314 |
-
-\pagebreak
-
-On constate un nombre d'opérations par secondes plus grand pour les nombres complexes. C'est expliqué par le fait que pour des matrices ou vecteurs de même taille (et donc un nombre d'accès mémoire équivalents), on fait plus d'opérations pour les nombres complexes que pour les réels, donc le temps des accès mémoire est mieux amorti.
-
-On remarque aussi que les opétations vecteurs / matrices sont plus performantes que les opérations vecteurs / vecteurs et que les opérations matrices / matrices sont plus perfomantes que les opétations vecteurs / matrices. Encore une fois, c'est possible car on rentabilise mieux nos accès mémoire : une ligne de matrice va être ré-utilisée plusieurs fois consécutivement.  
