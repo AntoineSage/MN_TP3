@@ -1,12 +1,12 @@
 #define VECSIZE 4096
-#define NB_FOIS 1000
+#define NB_FOIS 100
 
 #include <complexe.h>
 
-typedef float vfloat[VECSIZE];
-typedef double vdouble[VECSIZE];
-typedef complexe_float_t vcomplex[VECSIZE];
-typedef complexe_double_t vcomplexd[VECSIZE];
+typedef float vfloat[VECSIZE] __attribute__((aligned(32)));
+typedef double vdouble[VECSIZE] __attribute__((aligned(32)));
+typedef complexe_float_t vcomplex[VECSIZE] __attribute__((aligned(32)));
+typedef complexe_double_t vcomplexd[VECSIZE] __attribute__((aligned(32)));
 
 void vector_init(vfloat V, float x);
 void vector_init_d(vdouble V, double x);

@@ -7,23 +7,27 @@ int main(int argc, char const *argv[]) {
 	printf("TEST DES FONCTIONS BLAS1 COPY :\n");
 
 	// ---- FLOAT ----
-	float af[5] = {1.0, 2.0, 3.0, 4.0, 5.0};
-	float bf[5];
+	float af[16] __attribute__((aligned(32))) = {1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 2.0, 3.0,
+												 4.0, 5.0, 1.0, 2.0, 3.0, 4.0, 5.0, 1.0};
+	float bf[16] __attribute__((aligned(32)));
+	;
 
-	mncblas_scopy(5, af, 1, bf, 1);
+	mncblas_scopy(16, af, 1, bf, 1);
 
 	int i;
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < 16; i++) {
 		assert(af[i] == bf[i]);
 	}
 
 	// ---- DOUBLE ----
-	double ad[5] = {1.0, 2.0, 3.0, 4.0, 5.0};
-	double bd[5];
+	double ad[16] __attribute__((aligned(32))) = {1.0, 2.0, 3.0, 4.0, 5.0, 1.0, 2.0, 3.0,
+												  4.0, 5.0, 1.0, 2.0, 3.0, 4.0, 5.0, 1.0};
+	double bd[16] __attribute__((aligned(32)));
+	;
 
-	mncblas_dcopy(5, ad, 1, bd, 1);
+	mncblas_dcopy(16, ad, 1, bd, 1);
 
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < 16; i++) {
 		assert(ad[i] == bd[i]);
 	}
 

@@ -26,6 +26,25 @@ void perf_float() {
 	calcul_mo("scopy : ", VECSIZE, sizeof(float), mean);
 }
 
+void perf_float_V() {
+	vfloat vec1, vec2;
+	unsigned long long start, end;
+	float mean = 0.0;
+
+	for (int i = 0; i < NB_FOIS; i++) {
+		vector_init(vec1, 1.0);
+
+		start = _rdtsc();
+		mncblas_scopy_V(VECSIZE, vec1, 1, vec2, 1);
+		end = _rdtsc();
+		mean += end - start;
+	}
+	mean /= NB_FOIS;
+
+	printf("Moyenne sur %d répétitions : ", NB_FOIS);
+	calcul_mo("scopy_V : ", VECSIZE, sizeof(float), mean);
+}
+
 void perf_double() {
 	vdouble vec1, vec2;
 	unsigned long long start, end;
@@ -91,6 +110,7 @@ void perf_complex_double() {
 
 int main(int argc, char **argv) {
 	perf_float();
+	perf_float_V();
 	perf_double();
 	perf_complex();
 	perf_complex_double();
